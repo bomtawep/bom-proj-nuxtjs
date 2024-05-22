@@ -10,7 +10,7 @@
     <UButton
       type="submit"
     >
-      {{currentStep !== steps.length - 1 ? 'Next' : 'Create User'}}
+      {{currentStep !== steps.length - 1 ? 'Next' : 'Create user'}}
     </UButton>
   </div>
 </template>

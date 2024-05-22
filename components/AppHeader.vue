@@ -20,12 +20,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-const title = computed(() => 'bom')
-
-useHead({
-  title: title.value,
-})
-
 const colorMode = useColorMode()
 const isDark = computed({
   get () {

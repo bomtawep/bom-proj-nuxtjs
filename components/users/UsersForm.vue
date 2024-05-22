@@ -9,13 +9,16 @@
       <div class="space-y-2">
         <UFormGroup
           label="Email"
-          name="email"
+          name="Email"
         >
-          <UInput v-model="account.Email"/>
+          <UInput
+            v-model="account.Email"
+            :loading="loading"
+          />
         </UFormGroup>
         <UFormGroup
           label="Password"
-          name="password"
+          name="Password"
         >
           <UInput
             v-model="account.Password"
@@ -32,10 +35,13 @@ import { object, string, type InferType } from 'yup'
 import {useRegister} from "~/module/users";
 import type {FormSubmitEvent} from '#ui/types'
 import Action from "~/components/users/Action.vue";
+import { status } from "~/const/status"
 
-const { state, nextStep } = useRegister()
+const { state, nextStep, verifyEmail } = useRegister()
+const toast = useToast()
+
 const account = computed(() => state.value.account)
-
+const loading = computed(() => state.value.loading)
 const schema = object({
   Email: string().email('Invalid email').required('Required'),
   Password: string()
@@ -50,6 +56,8 @@ const schema = object({
 type Schema = InferType<typeof schema>
 
 async function onSubmit (event: FormSubmitEvent<Schema>) {
+  const response = await verifyEmail()
+  if (!(response?.status !== status.ERROR_NOT_FOUND)) return toast.add({title: response.data.message, color:"orange"})
   nextStep()
 }
 

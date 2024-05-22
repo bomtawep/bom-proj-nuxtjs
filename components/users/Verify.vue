@@ -54,6 +54,7 @@
   const { state, resetUser } = useRegister()
   const { postUser, uploadImage } = useUsersApi()
   const router = useRouter();
+  const toast = useToast()
 
   const account = computed(
     () => state.value.account
@@ -67,16 +68,15 @@
   )
 
   async function onSubmit () {
-    console.log(state.value.profileImage)
     const payload = {
       ...state.value.account,
       ...state.value.personalInfo,
     }
-    console.log(payload, 'payload')
+
     const response = await postUser(payload)
-    if (response.status !== 201) return
-    const responseImage = await uploadImage(state.value.profileImage.File)
-    if (responseImage.status !== 201) return
+    if (response.status !== 201) return toast.add({ title: response.data.message, color: 'red'})
+    const responseImage = await uploadImage(state.value.profileImage.File, response.data.user.InsertedID)
+    if (responseImage.status !== 201) return toast.add({ title: response.data.message, color: 'red'})
     await router.push('/users/users')
     resetUser()
   }

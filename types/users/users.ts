@@ -1,5 +1,7 @@
+import {date} from "yup";
+
 export type TUser = {
-    Id: string
+    InsertedID: string
     Email: string
     Password: string
 }
@@ -8,7 +10,7 @@ export type TPersonalInfo = {
     Firstname: string
     Lastname: string
     Gender: string
-    Birthdate: string
+    Birthdate: Date
     Phone: string
 }
 
@@ -29,5 +31,6 @@ export type TImage = {
 }
 
 export interface TUsers {
-    user: TUser[];
+    user: TUser;
+    message: string;
 }

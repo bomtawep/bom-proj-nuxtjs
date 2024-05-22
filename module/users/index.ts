@@ -1,14 +1,16 @@
 import {ref} from "vue";
 import type {TImage, TPersonalInfo, TUser} from "~/types/users/users";
+import useUsersApi from "~/api/users";
 
 interface PersonalI {
     account: TUser
     personalInfo: TPersonalInfo
     profileImage: TImage
+    loading: boolean
 }
 const initialPersonalInfo = (): PersonalI => ({
     account: {
-        Id: '',
+        InsertedID: '',
         Email: '',
         Password: ''
     },
@@ -16,7 +18,7 @@ const initialPersonalInfo = (): PersonalI => ({
         Firstname: '',
         Lastname: '',
         Gender: 'male',
-        Birthdate: '',
+        Birthdate: new Date(),
         Phone: ''
     },
     profileImage: {
@@ -26,7 +28,8 @@ const initialPersonalInfo = (): PersonalI => ({
         FileSize: 0,
         FileUrl: '',
         File: new File([], '')
-    }
+    },
+    loading: false
 })
 
 const image = ref<File | null>(null)
@@ -40,6 +43,7 @@ const steps = ref([
 
 const currentStep = ref(0)
 const state = ref<PersonalI>({ ...initialPersonalInfo() })
+const { getUserByEmail } = useUsersApi()
 
 export const useRegister = () => {
     const increaseStep = () => currentStep.value++
@@ -54,6 +58,22 @@ export const useRegister = () => {
         currentStep.value = 0
     }
 
+    const verifyEmail = async () => {
+        if (!state.value.account.Email) return
+        state.value.loading = true
+        try {
+            const response = await getUserByEmail({
+                Email: state.value.account.Email
+            })
+            if (!response) return
+            return response
+        } catch (error) {
+            console.error(error)
+        } finally {
+            state.value.loading = false
+        }
+    }
+
     return {
         currentStep,
         nextStep,
@@ -63,5 +83,6 @@ export const useRegister = () => {
         increaseStep,
         resetUser,
         image,
+        verifyEmail,
     }
 }

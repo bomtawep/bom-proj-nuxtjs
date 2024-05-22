@@ -1,21 +1,21 @@
 <template>
-  <div class="sm:flex justify-center">
-    <div class="m-10 xl:w-1/3 md:w-1/2 justify-center space-y-2">
+  <div class="container md:px-25 lg:px-32 xl:px-64 mx-auto">
+    <div class="m-10 space-y-2">
       <UProgress
           :value="currentStep"
           :max="steps"
       />
       <h1>Register</h1>
-      <users-form
+      <UsersForm
           v-if="currentStep === 0"
       />
-      <personal-form
+      <PersonalForm
           v-if="currentStep === 1"
       />
-      <upload-image-form
+      <UploadImageForm
           v-if="currentStep === 2"
       />
-      <verify
+      <Verify
           v-if="currentStep === 3"
       />
     </div>
