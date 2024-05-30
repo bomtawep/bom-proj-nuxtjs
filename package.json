@@ -13,7 +13,6 @@
     "@nuxt/ui": "^2.15.2",
     "@sidebase/nuxt-auth": "^0.7.2",
     "date-fns": "^3.6.0",
-    "next-auth": "4.21.1",
     "nuxt": "^3.11.2",
     "v-calendar": "^3.1.2",
     "vue": "^3.4.21",

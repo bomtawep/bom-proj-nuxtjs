@@ -57,6 +57,7 @@ type Schema = InferType<typeof schema>
 
 async function onSubmit (event: FormSubmitEvent<Schema>) {
   const response = await verifyEmail()
+  if (!response?.status) return
   if (!(response?.status !== status.ERROR_NOT_FOUND)) return toast.add({title: response.data.message, color:"orange"})
   nextStep()
 }
