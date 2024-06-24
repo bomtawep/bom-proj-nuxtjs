@@ -38,24 +38,33 @@ export default defineNuxtConfig({
 
   modules: ["@sidebase/nuxt-auth"],
   auth: {
+    globalAppMiddleware: true,
     baseURL: process.env.NEXT_PUBLIC_API_URL,
     provider: {
       type: 'local',
       endpoints: {
         signIn: { path: '/auth/login', method: 'post' },
-        getSession: { path: '/auth/session', method: 'get' },
+        signOut: { path: '/auth/logout', method: 'post'},
+        getSession: { path: '/auth/session', method: 'get'},
       },
       token: {
-        signInResponseTokenPointer: '/data/token/access_token',
+        signInResponseTokenPointer: '/data/token',
         type: 'Bearer',
         cookieName: 'access_token',
         headerName: 'Authorization',
       },
+      pages: {
+        login: '/users/signin'
+      },
+      sessionDataType: {
+        email: 'string',
+        firstname: 'string',
+        lastname: 'string'
+      },
     },
-    // session: {
-    //   enableRefreshOnWindowFocus: true,
-    //   enableRefreshPeriodically: 5000
-    // },
-    // sessionDataTypes: ['user'],
+    session: {
+      enableRefreshOnWindowFocus: true,
+      enableRefreshPeriodically: false,
+    },
   }
 })

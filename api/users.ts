@@ -1,10 +1,11 @@
-import type {TResponse} from "@/types/response";
+import type {TResponse} from "~/types/response";
 import type {TUser} from "~/types/users/users";
-
-const config = useRuntimeConfig();
-const host = config.public.apiBase;
+// import { useContext } from '@nuxtjs/composition-api'
 
 export default function useUsersApi() {
+    // const { $axios } = useContext();
+    const config = useRuntimeConfig();
+    const host = config.public.apiBase;
     // Get users with useAsyncData
     const getUsers = async (): Promise<TResponse> => {
         const res = await fetch(`${host}/users`,{
@@ -47,11 +48,21 @@ export default function useUsersApi() {
         });
         return await res.json();
     }
+
+    const getSession = async (): Promise<any> => {
+        const res = await fetch(`${host}/auth/session`,{
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        return await res.json();
+    }
     return {
         getUsers,
         postUser,
         deleteUserById,
         uploadImage,
         getUserByEmail,
+        getSession,
     };
 }

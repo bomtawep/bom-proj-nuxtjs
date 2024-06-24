@@ -1,11 +1,25 @@
 <template>
+  <template v-if="path !== '/users/signin'">
     <NuxtLayout>
       <NuxtPage />
       <UNotifications />
     </NuxtLayout>
+  </template>
+  <template v-else>
+    <Signin>
+      <NuxtPage />
+      <UNotifications />
+    </Signin>
+  </template>
 </template>
 <script setup lang="ts">
+
+  import Signin from "~/layouts/signin.vue";
+
   const title = ref('bom')
+
+  const route = useRoute()
+  const path = computed(() => route.path || '/')
   useHead({
     title: 'bom App',
     meta: [
