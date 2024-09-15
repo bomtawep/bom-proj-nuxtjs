@@ -1,6 +1,5 @@
 import type {TResponse} from "~/types/response";
 import type {TUser} from "~/types/users/users";
-// import { useContext } from '@nuxtjs/composition-api'
 
 export default function useUsersApi() {
     // const { $axios } = useContext();
@@ -41,7 +40,7 @@ export default function useUsersApi() {
         return await res.json();
     }
     const getUserByEmail = async (email: { Email: string }): Promise<TResponse> => {
-        const res = await fetch(`${host}/users/email`,{
+        const res = await fetch(`${host}/users/username`,{
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(email)

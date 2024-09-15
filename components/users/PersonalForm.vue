@@ -56,7 +56,7 @@
             mode="international"
           />
         </UFormGroup>
-        <action />
+        <UsersAction />
       </div>
     </UForm>
   </UCard>
@@ -64,12 +64,12 @@
 <script setup lang="ts">
 import {object, string, type InferType} from 'yup'
 import type { FormSubmitEvent } from '#ui/types'
-import Action from "~/components/users/Action.vue";
-import {useRegister} from "~/module/users";
-import { usersConst } from "~/const/usersConst";
+import {ActionType, GenderType} from "~/const/users";
 import { format } from 'date-fns'
 import { VueTelInput } from 'vue-tel-input';
 import 'vue-tel-input/vue-tel-input.css';
+import {useUserSteps} from "~/module/users/steps";
+import {useRegister} from "~/module/users";
 
 // Validate phone number with + and prefix and number only
 const phoneRegExp = /^\+(?:[0-9] ?){6,14}[0-9]$/
@@ -80,18 +80,18 @@ const schema = object({
   Phone: string().matches(phoneRegExp, 'Phone number is not valid').required('Required'),
 })
 type Schema = InferType<typeof schema>
-const { state, nextStep } = useRegister()
-const { genderConst } = usersConst
+const { state } = useRegister()
+const { nextStep } = useUserSteps()
 
 const personalInfo = computed(() => state.value.personalInfo)
 const gender = computed({
   get: () =>
-    !(state.value.personalInfo.Gender !== genderConst.FEMALE),
+    !(state.value.personalInfo.Gender !== GenderType.FEMALE),
   set: (value: boolean) => {
     if (!value) {
-      state.value.personalInfo.Gender = genderConst.MALE
+      state.value.personalInfo.Gender = GenderType.MALE
     } else {
-      state.value.personalInfo.Gender = genderConst.FEMALE
+      state.value.personalInfo.Gender = GenderType.FEMALE
     }
   }
 })

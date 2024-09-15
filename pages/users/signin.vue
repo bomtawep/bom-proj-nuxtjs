@@ -1,26 +1,16 @@
-<script setup lang="ts">
-const Username = ref('')
-const Password = ref('')
-const { signIn } = useAuth()
-async function signInWithCredentials() {
-  const credentials = {
-    Username: Username.value,
-    Password: Password.value
-  }
-  try {
-    await signIn(credentials, {
-      callbackUrl: '/',
-      redirect: true
-    })
-  } catch (error) {
-    console.error(error)
-  }
-}
-</script>
 <template>
-
-  <div>
-    <UsersForm />
-    <UButton @click="signInWithCredentials()">Login</UButton>
+  <div class="container mx-auto my-auto md:px-25 lg:px-32 xl:px-64">
+    <div class="flex justify-center bg-gray-400 rounded-lg relative shadow-2xl">
+      <img src="~/assets/img/store.png" alt="Store" class="w-96 h-96" />
+      <UsersForm :action-type="ActionType.SIGNIN" class="flex flex-col justify-center w-full h-auto shadow-inner" />
+      <ItemsTheme/>
+    </div>
   </div>
 </template>
+<script setup lang="ts">
+  import { ActionType } from "~/const/users";
+  definePageMeta({
+    auth: { unauthenticatedOnly: false},
+    layout: 'signin',
+  })
+</script>
