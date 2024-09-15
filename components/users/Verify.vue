@@ -41,14 +41,13 @@
           <h1>Gender</h1>
           <p>{{ personalInfo.Gender }}</p>
         </div>
-        <action />
+        <UsersAction />
       </div>
     </UForm>
   </UCard>
 </template>
 <script setup lang="ts">
   import {useRegister} from "~/module/users";
-  import Action from "~/components/users/Action.vue";
   import useUsersApi from "~/api/users";
 
   const { state, resetUser } = useRegister()

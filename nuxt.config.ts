@@ -4,12 +4,15 @@ export default defineNuxtConfig({
     routeRules: {
       '/**': { isr: true }
     },
-    modules: ["@nuxt/ui"]
+    modules: ["@nuxt/ui"],
   },
 
   $development: {
     devtools: { enabled: true },
     modules: ["@nuxt/ui"],
+    devServer: {
+      port: 3009
+    },
   },
 
   colorMode: {
@@ -43,18 +46,18 @@ export default defineNuxtConfig({
     provider: {
       type: 'local',
       endpoints: {
-        signIn: { path: '/auth/login', method: 'post' },
-        signOut: { path: '/auth/logout', method: 'post'},
+        signIn: { path: '/auth/sign-in', method: 'post' },
+        signOut: { path: '/auth/sign-out', method: 'post'},
         getSession: { path: '/auth/session', method: 'get'},
       },
       token: {
-        signInResponseTokenPointer: '/data/token',
+        signInResponseTokenPointer: '/access_token',
         type: 'Bearer',
-        cookieName: 'access_token',
+        cookieName: 'bom_access_token',
         headerName: 'Authorization',
       },
       pages: {
-        login: '/users/signin'
+        login: '/users/signin',
       },
       sessionDataType: {
         email: 'string',

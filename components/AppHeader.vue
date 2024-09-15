@@ -2,7 +2,7 @@
 <template>
   <header class="sticky">
     <div class="flex justify-between items-center">
-      <h1>{{ title }}</h1>
+      <h1>{{ title.TITLE }}</h1>
       <Navigation />
       <ClientOnly>
         <UButton
@@ -19,6 +19,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { title } from "~/const/title";
 
 const colorMode = useColorMode()
 const isDark = computed({

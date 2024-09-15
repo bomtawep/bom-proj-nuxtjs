@@ -1,27 +1,25 @@
 <template>
-  <template v-if="path !== '/users/signin'">
-    <NuxtLayout>
-      <NuxtPage />
-      <UNotifications />
-    </NuxtLayout>
-  </template>
-  <template v-else>
+  <template v-if="path.includes('/users/signin', '/users/signup')">
     <Signin>
       <NuxtPage />
       <UNotifications />
     </Signin>
   </template>
+  <template v-else>
+    <NuxtLayout>
+      <NuxtPage />
+      <UNotifications />
+    </NuxtLayout>
+  </template>
 </template>
 <script setup lang="ts">
-
   import Signin from "~/layouts/signin.vue";
-
-  const title = ref('bom')
+  import { title } from "~/const/title";
 
   const route = useRoute()
   const path = computed(() => route.path || '/')
   useHead({
-    title: 'bom App',
+    title: title.TITLE,
     meta: [
       { name: 'description', content: 'bom site.' }
     ],
@@ -31,7 +29,7 @@
     script: [ { innerHTML: 'console.log(\'Hello world\')' } ]
   })
   useSeoMeta({
-    title: title,
+    title: title.TITLE,
     ogTitle: 'bom website',
     description: 'bom',
     ogDescription: 'bom',

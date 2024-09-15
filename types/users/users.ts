@@ -2,8 +2,9 @@ import {date} from "yup";
 
 export type TUser = {
     InsertedID: string
-    Email: string
+    Username: string
     Password: string
+    Email: string
 }
 
 export type TPersonalInfo = {

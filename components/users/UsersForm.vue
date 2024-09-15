@@ -5,61 +5,115 @@
       :state="account"
       class="m-2"
       @submit="onSubmit"
+      :validate="customValidate"
     >
       <div class="space-y-2">
+        {{!isEmail}}
+        {{account.Email}}
         <UFormGroup
-          label="Email"
-          name="Email"
+          label="Username"
+          name="Username"
         >
           <UInput
-            v-model="account.Email"
+            v-model="account.Username"
             :loading="loading"
+          />
+        </UFormGroup>
+        <UFormGroup
+            v-if="isEmail && actionType !== ActionType.SIGNIN"
+            label="Email"
+            name="Email"
+        >
+          <UInput
+              v-model="account.Email"
+              :loading="loading"
           />
         </UFormGroup>
         <UFormGroup
           label="Password"
           name="Password"
         >
-          <UInput
-            v-model="account.Password"
-            type="password"
-          />
+          <div class="relative">
+            <UInput
+              :type="passwordVisible ? 'text' : 'password'"
+              v-model="account.Password"
+              placeholder="Enter your password"
+            />
+            <i
+              :class="`absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer ${passwordVisible ? 'i-heroicons-eye-20-solid' : 'i-heroicons-eye-slash-20-solid'}`"
+              @click="togglePasswordVisibility"
+            />
+          </div>
         </UFormGroup>
-        <action />
+        <ULink v-if="actionType === ActionType.SIGNIN" class="text-blue-700" @click="handleRegister">Sign up</ULink>
+        <UsersAction :action-type="actionType" />
       </div>
     </UForm>
   </UCard>
 </template>
 <script setup lang="ts">
-import { object, string, type InferType } from 'yup'
-import {useRegister} from "~/module/users";
-import type {FormSubmitEvent} from '#ui/types'
-import Action from "~/components/users/Action.vue";
-import { status } from "~/const/status"
+  import { useRegister } from "~/module/users";
+  import type { FormSubmitEvent } from '#ui/types'
+  import { status } from "~/const/status"
+  import { useUserSteps } from "~/module/users/steps";
+  import { ActionType } from "~/const/users";
+  import { type Schema, useSignin } from "~/module/users/signin";
 
-const { state, nextStep, verifyEmail } = useRegister()
-const toast = useToast()
+  const props = defineProps({
+    actionType: {
+      type: String,
+      default: ActionType.SIGNIN
+    }
+  })
 
-const account = computed(() => state.value.account)
-const loading = computed(() => state.value.loading)
-const schema = object({
-  Email: string().email('Invalid email').required('Required'),
-  Password: string()
-      .min(8, 'Must be at least 8 characters')
-      .required('Required')
-      .matches(/[A-Z]/, 'At least one uppercase letter')
-      .matches(/[a-z]/, 'At least one lowercase letter')
-      .matches(/[0-9]/, 'At least one number')
-      .matches(/[^A-Za-z0-9]/, 'At least one special character')
-})
+  const { state, verifyEmail } = useRegister()
+  const { nextStep } = useUserSteps()
+  const { schema, customValidate } = useSignin()
+  const toast = useToast()
+  const account = computed(() => state.value.account)
+  const loading = computed(() => state.value.loading)
+  const { signIn } = useAuth()
+  const router = useRouter()
+  const passwordVisible = ref(false)
 
-type Schema = InferType<typeof schema>
+  async function signInWithCredentials() {
+    const credentials = {
+      username: account.value.Username,
+      password: account.value.Password,
+    }
+    try {
+      return await signIn(credentials, {
+        callbackUrl: '/',
+        redirect: true
+      })
+    } catch (error) {
+      return error
+    }
+  }
 
-async function onSubmit (event: FormSubmitEvent<Schema>) {
-  const response = await verifyEmail()
-  if (!response?.status) return
-  if (!(response?.status !== status.ERROR_NOT_FOUND)) return toast.add({title: response.data.message, color:"orange"})
-  nextStep()
-}
+  const handleRegister = () => {
+    if (props.actionType === ActionType.SIGNIN) {
+      router.push('/users/signup')
+    }
+  }
+
+  const isEmail = computed(() => !!account.value.Email)
+
+  const togglePasswordVisibility = () => {
+    passwordVisible.value = !passwordVisible.value
+  }
+
+  async function onSubmit (event: FormSubmitEvent<Schema>) {
+    if (props.actionType === ActionType.SIGNUP) {
+      const response = await verifyEmail()
+      if ((response?.statusCode !== status.ERROR_NOT_FOUND)) return toast.add({title: "User already exist", color:"red"})
+      nextStep()
+    } else {
+      const response = await signInWithCredentials()
+
+      if (!response) return
+      toast.add({title: response.data.message, color:"orange"})
+    }
+  }
 
 </script>

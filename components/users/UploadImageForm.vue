@@ -54,8 +54,10 @@
 </template>
 <script setup lang="ts">
 import { useRegister } from "~/module/users";
+import {useUserSteps} from "~/module/users/steps";
 
-const { state, nextStep } = useRegister()
+const { state } = useRegister()
+const { nextStep } = useUserSteps()
 const personalInfo = computed(() => state.value.personalInfo)
 const profileImage = computed(() => state.value.profileImage)
 const toast = useToast()
