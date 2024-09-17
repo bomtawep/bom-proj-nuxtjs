@@ -10,10 +10,10 @@
       <div class="space-y-2">
         <UFormGroup
           label="Username"
-          name="Username"
+          name="username"
         >
           <UInput
-            v-model="account.Username"
+            v-model="account.username"
             :loading="loading"
             placeholder="Enter your username"
           />
@@ -21,22 +21,22 @@
         <UFormGroup
             v-if="!isEmail && actionType !== ActionType.SIGNIN"
             label="Email"
-            name="Email"
+            name="email"
         >
           <UInput
-              v-model="account.Email"
+              v-model="account.email"
               :loading="loading"
               placeholder="Enter your email"
           />
         </UFormGroup>
         <UFormGroup
           label="Password"
-          name="Password"
+          name="password"
         >
           <div class="relative">
             <UInput
               :type="passwordVisible ? 'text' : 'password'"
-              v-model="account.Password"
+              v-model="account.password"
               placeholder="Enter your password"
             />
             <i
@@ -54,9 +54,8 @@
 <script setup lang="ts">
   import { useRegister } from "~/module/users";
   import type { FormSubmitEvent } from '#ui/types'
-  import { status } from "~/const/status"
   import { useUserSteps } from "~/module/users/steps";
-  import { ActionType } from "~/const/users";
+  import { ActionType } from "~/const";
   import { type Schema, useSignin } from "~/module/users/signin";
 
   const props = defineProps({
@@ -66,7 +65,7 @@
     }
   })
 
-  const { state, verifyEmail } = useRegister()
+  const { state, verify } = useRegister()
   const { nextStep } = useUserSteps()
   const { schema, customValidate } = useSignin()
   const toast = useToast()
@@ -79,8 +78,8 @@
 
   async function signInWithCredentials() {
     const credentials = {
-      username: account.value.Username,
-      password: account.value.Password,
+      username: account.value.username,
+      password: account.value.password,
     }
     try {
       return await signIn(credentials, {
@@ -103,15 +102,15 @@
   }
 
   async function onSubmit (event: FormSubmitEvent<Schema>) {
-    if (props.actionType === ActionType.SIGNUP) {
-      const response = await verifyEmail()
-      if ((response?.statusCode !== status.ERROR_NOT_FOUND)) return toast.add({title: "User already exist", color:"red"})
+    if (props.actionType !== ActionType.SIGNIN) {
+      const response = await verify()
+      if (response.statusCode)
+        return toast.add({title: response.message, color:"orange"})
       nextStep()
     } else {
       const response = await signInWithCredentials()
-
       if (!response) return
-      toast.add({title: response.data.message, color:"orange"})
+      toast.add({title: response.message, color:"orange"})
     }
   }
 

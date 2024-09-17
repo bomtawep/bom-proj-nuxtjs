@@ -8,14 +8,13 @@
   </div>
 </template>
 <script setup lang="ts">
-  import { ActionType } from "~/const/users";
-  import { pageName } from "~/const";
-  import {useRegister} from "~/module/users";
+  import { ActionType } from "~/const";
+  import { useRegister } from "~/module/users";
 
   definePageMeta({
     auth: false,
     layout: 'signin',
-    name: pageName.SIGNIN
+    name: ActionType.SIGNIN
   })
 
   const { resetUser } = useRegister()

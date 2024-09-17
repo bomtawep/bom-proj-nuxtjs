@@ -9,16 +9,16 @@
       <div class="space-y-2">
         <UFormGroup
           label="Firstname"
-          name="Firstname"
+          name="firstname"
         >
-          <UInput v-model="personalInfo.Firstname"/>
+          <UInput v-model="personalInfo.firstname"/>
         </UFormGroup>
         <UFormGroup
           label="Lastname"
-          name="Lastname"
+          name="lastname"
         >
           <UInput
-            v-model="personalInfo.Lastname"
+            v-model="personalInfo.lastname"
           />
         </UFormGroup>
         <UFormGroup
@@ -37,11 +37,11 @@
         </UFormGroup>
         <UPopover :popper="{ placement: 'bottom-start' }">
           <UButton icon="i-heroicons-calendar-days-20-solid">
-            {{ format(personalInfo.Birthdate, 'd MMM, yyy') }}
+            {{ format(personalInfo.birthdate, 'd MMM, yyy') }}
           </UButton>
           <template #panel="{ close }">
             <ItemsDatePicker
-              v-model="personalInfo.Birthdate"
+              v-model="personalInfo.birthdate"
               is-required
               @close="close"
             />
@@ -49,10 +49,10 @@
         </UPopover>
         <UFormGroup
           label="Phone"
-          name="Phone"
+          name="phone"
         >
           <vue-tel-input
-            v-model="personalInfo.Phone"
+            v-model="personalInfo.phone"
             mode="international"
           />
         </UFormGroup>
@@ -62,22 +62,22 @@
   </UCard>
 </template>
 <script setup lang="ts">
-import {object, string, type InferType} from 'yup'
+import { object, string, type InferType } from 'yup'
 import type { FormSubmitEvent } from '#ui/types'
-import {ActionType, GenderType} from "~/const/users";
+import { GenderType} from "~/const/users";
 import { format } from 'date-fns'
 import { VueTelInput } from 'vue-tel-input';
 import 'vue-tel-input/vue-tel-input.css';
-import {useUserSteps} from "~/module/users/steps";
-import {useRegister} from "~/module/users";
+import { useUserSteps } from "~/module/users/steps";
+import { useRegister } from "~/module/users";
 
 // Validate phone number with + and prefix and number only
 const phoneRegExp = /^\+(?:[0-9] ?){6,14}[0-9]$/
 const schema = object({
-  Firstname: string().required('Required'),
-  Lastname: string().required('Required'),
+  firstname: string().required('Required'),
+  lastname: string().required('Required'),
 
-  Phone: string().matches(phoneRegExp, 'Phone number is not valid').required('Required'),
+  phone: string().matches(phoneRegExp, 'Phone number is not valid').required('Required'),
 })
 type Schema = InferType<typeof schema>
 const { state } = useRegister()
@@ -86,12 +86,12 @@ const { nextStep } = useUserSteps()
 const personalInfo = computed(() => state.value.personalInfo)
 const gender = computed({
   get: () =>
-    !(state.value.personalInfo.Gender !== GenderType.FEMALE),
+    !(state.value.personalInfo.gender !== GenderType.FEMALE),
   set: (value: boolean) => {
     if (!value) {
-      state.value.personalInfo.Gender = GenderType.MALE
+      state.value.personalInfo.gender = GenderType.MALE
     } else {
-      state.value.personalInfo.Gender = GenderType.FEMALE
+      state.value.personalInfo.gender = GenderType.FEMALE
     }
   }
 })

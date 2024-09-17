@@ -19,7 +19,7 @@
   </div>
 </template>
 <script setup lang="ts">
-  import {ActionType} from "~/const/users";
+  import { ActionType } from "~/const";
   import { useUserSteps } from "~/module/users/steps";
 
   const props = defineProps({

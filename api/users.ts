@@ -39,8 +39,8 @@ export default function useUsersApi() {
         });
         return await res.json();
     }
-    const getUserByEmail = async (email: { Email: string }): Promise<TResponse> => {
-        const res = await fetch(`${host}/users/username`,{
+    const verifyUsernameEmail = async (email: { Email: string }): Promise<TResponse> => {
+        const res = await fetch(`${host}/users/verify`,{
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(email)
@@ -61,7 +61,7 @@ export default function useUsersApi() {
         postUser,
         deleteUserById,
         uploadImage,
-        getUserByEmail,
+        verifyUsernameEmail,
         getSession,
     };
 }

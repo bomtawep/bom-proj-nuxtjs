@@ -1,5 +1,5 @@
 <template>
-  <div v-if="[pageName.SIGNIN, pageName.SIGNUP].includes(routeName)">
+  <div v-if="[ActionType.SIGNIN, ActionType.SIGNUP].includes(routeName)">
     <Signin>
       <NuxtPage />
       <UNotifications />
@@ -14,7 +14,7 @@
 </template>
 <script setup lang="ts">
   import Signin from "~/layouts/signin.vue";
-  import { pageName, title } from "~/const";
+  import { ActionType, title } from "~/const";
 
   const route = useRoute()
   const routeName = computed(() => route.name || '/')

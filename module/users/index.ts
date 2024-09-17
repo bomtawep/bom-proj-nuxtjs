@@ -13,25 +13,25 @@ interface PersonalI {
 
 const initialPersonalInfo = (): PersonalI => ({
     account: {
-        InsertedID: '',
-        Username: '',
-        Password: '',
-        Email: '',
+        id: '',
+        username: '',
+        password: '',
+        email: '',
     },
     personalInfo: {
-        Firstname: '',
-        Lastname: '',
-        Gender: 'male',
-        Birthdate: new Date(),
-        Phone: ''
+        firstname: '',
+        lastname: '',
+        gender: 'male',
+        birthdate: new Date(),
+        phone: ''
     },
     profileImage: {
-        Id: '',
-        FileName: '',
-        FileType: '',
-        FileSize: 0,
-        FileUrl: '',
-        File: new File([], '')
+        id: '',
+        fileName: '',
+        fileType: '',
+        fileSize: 0,
+        fileUrl: '',
+        file: new File([], '')
     },
     loading: false,
     isEmail: false
@@ -44,7 +44,7 @@ const image = ref<File | null>(null)
 const state = ref<PersonalI>({ ...initialPersonalInfo() })
 
 export const useRegister = () => {
-    const { getUserByEmail } = useUsersApi()
+    const { verifyUsernameEmail } = useUsersApi()
     const { currentStep } = useUserSteps()
 
     const resetUser = () => {
@@ -52,13 +52,19 @@ export const useRegister = () => {
         currentStep.value = 0
     }
 
-    const verifyEmail = async () => {
-        if (!state.value.account.Username) return
+    const verify = async () => {
+        if (!state.value.account.username) return
         state.value.loading = true
+        const payload =
+        state.value.isEmail ?
+            { email: state.value.account.email }
+        :
+            {
+                username: state.value.account.username,
+                email: state.value.account.email
+            }
         try {
-            const response = await getUserByEmail({
-                username: state.value.account.Username
-            })
+            const response = await verifyUsernameEmail(payload)
             if (!response) return
             return response
         } catch (error) {
@@ -72,6 +78,6 @@ export const useRegister = () => {
         state,
         resetUser,
         image,
-        verifyEmail,
+        verify,
     }
 }
