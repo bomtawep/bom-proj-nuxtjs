@@ -1,10 +1,11 @@
-import {type InferType, object, string} from "yup";
-import {type TUser} from "~/types/users/users";
-import {type FormError} from "#ui/types";
+import { type InferType, object, string } from "yup";
+import { type TUser } from "~/types/users/users";
+import { type FormError } from "#ui/types";
+import { useRegister } from "~/module/users/index";
 
 const schema = object({
     Username: string().min(6),
-    Email: string(),
+    Email: string().email(),
     Password: string()
         .min(8, 'Must be at least 8 characters')
         .required('Required')
@@ -18,17 +19,17 @@ export type Schema = InferType<typeof schema>
 
 export const useSignin = () => {
 
+    const { state } = useRegister()
     const checkIsEmail = (email: string) => {
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(email).toLowerCase());
     }
     const customValidate = (account: TUser): FormError[] => {
         const errors: FormError[] = [];
-
-        if (!checkIsEmail(account.Username)) {
+        state.value.isEmail = false
+        if (checkIsEmail(account.Username)) {
             account.Email = account.Username
-        } else {
-            account.Email = ''
+            state.value.isEmail = true
         }
 
         return errors;

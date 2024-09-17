@@ -1,23 +1,23 @@
 <template>
-  <template v-if="path.includes('/users/signin', '/users/signup')">
+  <div v-if="[pageName.SIGNIN, pageName.SIGNUP].includes(routeName)">
     <Signin>
       <NuxtPage />
       <UNotifications />
     </Signin>
-  </template>
-  <template v-else>
+  </div>
+  <div v-else>
     <NuxtLayout>
       <NuxtPage />
       <UNotifications />
     </NuxtLayout>
-  </template>
+  </div>
 </template>
 <script setup lang="ts">
   import Signin from "~/layouts/signin.vue";
-  import { title } from "~/const/title";
+  import { pageName, title } from "~/const";
 
   const route = useRoute()
-  const path = computed(() => route.path || '/')
+  const routeName = computed(() => route.name || '/')
   useHead({
     title: title.TITLE,
     meta: [
