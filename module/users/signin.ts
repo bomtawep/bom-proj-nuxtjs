@@ -4,9 +4,9 @@ import { type FormError } from "#ui/types";
 import { useRegister } from "~/module/users/index";
 
 const schema = object({
-    Username: string().min(6),
-    Email: string().email(),
-    Password: string()
+    username: string().min(6),
+    email: string().email(),
+    password: string()
         .min(8, 'Must be at least 8 characters')
         .required('Required')
         .matches(/[A-Z]/, 'At least one uppercase letter')
@@ -27,8 +27,8 @@ export const useSignin = () => {
     const customValidate = (account: TUser): FormError[] => {
         const errors: FormError[] = [];
         state.value.isEmail = false
-        if (checkIsEmail(account.Username)) {
-            account.Email = account.Username
+        if (checkIsEmail(account.username)) {
+            account.email = account.username
             state.value.isEmail = true
         }
 

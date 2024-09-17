@@ -3,7 +3,7 @@ export enum GenderType {
     FEMALE = 'FEMALE'
 }
 
-export enum ActionType {
-    SIGNIN = 'SIGNIN',
-    SIGNUP = 'SIGNUP'
+export enum StatusType {
+    ACTIVE = 'ACTIVE',
+    INACTIVE = 'INACTIVE'
 }

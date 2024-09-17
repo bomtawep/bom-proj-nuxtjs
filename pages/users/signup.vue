@@ -27,14 +27,13 @@
   import UploadImageForm from "~/components/users/UploadImageForm.vue";
   import Verify from "~/components/users/Verify.vue";
   import { useUserSteps } from "~/module/users/steps";
-  import { ActionType } from "~/const/users";
-  import { pageName } from "~/const";
-  import {useRegister} from "~/module/users";
+  import { ActionType } from "~/const";
+  import { useRegister } from "~/module/users";
 
   definePageMeta({
     auth: false,
     layout: 'signin',
-    name: pageName.SIGNUP
+    name: ActionType.SIGNUP
   })
 
   const { steps, currentStep } = useUserSteps()

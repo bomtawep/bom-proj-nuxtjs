@@ -8,13 +8,13 @@
       <div class="space-y-2">
         <div class="text-center mx-auto">
           <ULink
-            :href="profileImage.FileUrl"
+            :href="profileImage.fileUrl"
             class="text-primary-500"
           >
-            <template v-if="profileImage.FileUrl">
+            <template v-if="profileImage.fileUrl">
               <img
-                  :src="profileImage?.FileUrl"
-                  :alt="profileImage?.FileName"
+                  :src="profileImage?.fileUrl"
+                  :alt="profileImage?.fileName"
                   class="rounded-full w-48 h-48 mb-2"
               >
             </template>
@@ -23,7 +23,7 @@
             </template>
           </ULink>
           <p class="font-semibold">
-            {{ personalInfo.Firstname }} {{ personalInfo.Lastname }}
+            {{ personalInfo.firstname }} {{ personalInfo.lastname }}
           </p>
         </div>
         <UInput
@@ -35,7 +35,7 @@
         />
         <div class="grid lg:grid-cols-4 md:grid-cols-4 gap-2">
           <UInput
-            v-model="profileImage.FileName"
+            v-model="profileImage.fileName"
             class="w-full md:col-span-3 lg:col-span-3 xl:col-span-3"
             disabled
           />
@@ -67,15 +67,15 @@ const handleChangeImage = (event: FileList) => {
   const file = event[0]
   if (!file) return
 
-  state.value.profileImage.File = file
-  state.value.profileImage.FileName = file.name
-  state.value.profileImage.FileSize = file.size
-  state.value.profileImage.FileType = file.type
-  state.value.profileImage.FileUrl = URL.createObjectURL(file)
+  state.value.profileImage.file = file
+  state.value.profileImage.fileName = file.name
+  state.value.profileImage.fileSize = file.size
+  state.value.profileImage.fileType = file.type
+  state.value.profileImage.fileUrl = URL.createObjectURL(file)
 }
 
 async function onSubmit () {
-  if (!state.value.profileImage.FileName) return toast.add({ title: 'Please select a image profile', color: 'orange' })
+  if (!state.value.profileImage.fileName) return toast.add({ title: 'Please select a image profile', color: 'orange' })
   nextStep()
 }
 </script>

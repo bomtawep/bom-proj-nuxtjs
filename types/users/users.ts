@@ -1,18 +1,18 @@
 import {date} from "yup";
 
 export type TUser = {
-    InsertedID: string
-    Username: string
-    Password: string
-    Email: string
+    id: string
+    username: string
+    password: string
+    email: string
 }
 
 export type TPersonalInfo = {
-    Firstname: string
-    Lastname: string
-    Gender: string
-    Birthdate: Date
-    Phone: string
+    firstname: string
+    lastname: string
+    gender: string
+    birthdate: Date
+    phone: string
 }
 
 export type file = {
@@ -23,12 +23,12 @@ export type file = {
 }
 
 export type TImage = {
-    Id: string
-    FileName: string
-    FileType: string
-    FileSize: number
-    FileUrl: string
-    File: File
+    id: string
+    fileName: string
+    fileType: string
+    fileSize: number
+    fileUrl: string
+    file: File
 }
 
 export interface TUsers {

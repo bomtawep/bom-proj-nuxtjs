@@ -2,7 +2,7 @@ export const title = {
     TITLE: 'bomtawep'
 }
 
-export enum pageName {
+export enum ActionType {
     SIGNIN = 'SIGNIN',
-    SIGNUP = 'SIGNUP',
+    SIGNUP = 'SIGNUP'
 }
