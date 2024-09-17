@@ -4,22 +4,14 @@
     <div class="flex justify-between items-center">
       <h1>{{ title.TITLE }}</h1>
       <Navigation />
-      <ClientOnly>
-        <UButton
-            :icon="isDark ? 'i-heroicons-moon-20-solid' : 'i-heroicons-sun-20-solid'"
-            color="gray"
-            variant="ghost"
-            aria-label="Theme"
-            @click="isDark = !isDark"
-        />
-      </ClientOnly>
+      <ItemsTheme/>
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { title } from "~/const/title";
+import { title } from "~/const";
 
 const colorMode = useColorMode()
 const isDark = computed({

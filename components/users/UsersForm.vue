@@ -8,8 +8,6 @@
       :validate="customValidate"
     >
       <div class="space-y-2">
-        {{!isEmail}}
-        {{account.Email}}
         <UFormGroup
           label="Username"
           name="Username"
@@ -17,16 +15,18 @@
           <UInput
             v-model="account.Username"
             :loading="loading"
+            placeholder="Enter your username"
           />
         </UFormGroup>
         <UFormGroup
-            v-if="isEmail && actionType !== ActionType.SIGNIN"
+            v-if="!isEmail && actionType !== ActionType.SIGNIN"
             label="Email"
             name="Email"
         >
           <UInput
               v-model="account.Email"
               :loading="loading"
+              placeholder="Enter your email"
           />
         </UFormGroup>
         <UFormGroup
@@ -72,6 +72,7 @@
   const toast = useToast()
   const account = computed(() => state.value.account)
   const loading = computed(() => state.value.loading)
+  const isEmail = computed(() => state.value.isEmail)
   const { signIn } = useAuth()
   const router = useRouter()
   const passwordVisible = ref(false)
@@ -96,8 +97,6 @@
       router.push('/users/signup')
     }
   }
-
-  const isEmail = computed(() => !!account.value.Email)
 
   const togglePasswordVisibility = () => {
     passwordVisible.value = !passwordVisible.value

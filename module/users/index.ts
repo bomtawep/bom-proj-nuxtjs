@@ -8,6 +8,7 @@ interface PersonalI {
     personalInfo: TPersonalInfo
     profileImage: TImage
     loading: boolean
+    isEmail: boolean
 }
 
 const initialPersonalInfo = (): PersonalI => ({
@@ -32,7 +33,8 @@ const initialPersonalInfo = (): PersonalI => ({
         FileUrl: '',
         File: new File([], '')
     },
-    loading: false
+    loading: false,
+    isEmail: false
 })
 
 
