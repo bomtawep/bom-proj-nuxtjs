@@ -56,6 +56,7 @@
   import type { FormSubmitEvent } from '#ui/types'
   import { useUserSteps } from "~/module/users/steps";
   import { ActionType } from "~/const";
+  import { StatusCode } from "~/const/statusCode";
   import { type Schema, useSignin } from "~/module/users/signin";
 
   const props = defineProps({
@@ -104,13 +105,12 @@
   async function onSubmit (event: FormSubmitEvent<Schema>) {
     if (props.actionType !== ActionType.SIGNIN) {
       const response = await verify()
-      if (response.statusCode)
+      if (response.statusCode !== StatusCode.CREATED)
         return toast.add({title: response.message, color:"orange"})
       nextStep()
     } else {
       const response = await signInWithCredentials()
-      if (!response) return
-      toast.add({title: response.message, color:"orange"})
+      if (response) return toast.add({title: response.message, color:"orange"})
     }
   }
 

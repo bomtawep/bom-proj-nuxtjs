@@ -51,7 +51,7 @@ export default defineNuxtConfig({
         getSession: { path: '/auth/session', method: 'get'},
       },
       token: {
-        signInResponseTokenPointer: '/access_token',
+        signInResponseTokenPointer: '/data/access_token',
         type: 'Bearer',
         cookieName: 'bom_access_token',
         headerName: 'Authorization',

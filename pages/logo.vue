@@ -1,3 +1,4 @@
 <template>
-  <items-logo/>
 </template>
+<script setup lang="ts">
+</script>

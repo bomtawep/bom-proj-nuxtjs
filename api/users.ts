@@ -5,6 +5,7 @@ export default function useUsersApi() {
     // const { $axios } = useContext();
     const config = useRuntimeConfig();
     const host = config.public.apiBase;
+    const cookie = useCookie('bom_access_token');
     // Get users with useAsyncData
     const getUsers = async (): Promise<TResponse> => {
         const res = await fetch(`${host}/users`,{
@@ -29,13 +30,17 @@ export default function useUsersApi() {
     }
     const uploadImage = async (image: File, userId: string): Promise<TResponse> => {
         const formData = new FormData();
-        formData.append('fileUpload', image);
-        formData.append('uploadType', 'user');
-        console.log('userId', userId)
-        formData.append('userId', userId);
-        const res = await fetch(`${host}/users/image`,{
+        formData.append('file', image);
+        const res = await fetch(`${host}/images`,{
             method: "POST",
             body: formData
+        });
+        return await res.json();
+    }
+
+    const getImages = async (imageId: string): Promise<TResponse> => {
+        const res = await fetch(`${host}/images/${imageId}`,{
+            headers: { "Content-Type": "application/json" },
         });
         return await res.json();
     }
@@ -52,6 +57,7 @@ export default function useUsersApi() {
         const res = await fetch(`${host}/auth/session`,{
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${cookie.value}`
             },
         });
         return await res.json();
@@ -63,5 +69,6 @@ export default function useUsersApi() {
         uploadImage,
         verifyUsernameEmail,
         getSession,
+        getImages,
     };
 }

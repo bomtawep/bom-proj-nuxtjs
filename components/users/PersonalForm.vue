@@ -49,10 +49,10 @@
         </UPopover>
         <UFormGroup
           label="Phone"
-          name="phone"
+          name="phoneNumber"
         >
           <vue-tel-input
-            v-model="personalInfo.phone"
+            v-model="personalInfo.phoneNumber"
             mode="international"
           />
         </UFormGroup>
@@ -77,7 +77,7 @@ const schema = object({
   firstname: string().required('Required'),
   lastname: string().required('Required'),
 
-  phone: string().matches(phoneRegExp, 'Phone number is not valid').required('Required'),
+  phoneNumber: string().matches(phoneRegExp, 'Phone number is not valid').required('Required'),
 })
 type Schema = InferType<typeof schema>
 const { state } = useRegister()

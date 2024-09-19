@@ -23,7 +23,7 @@ const initialPersonalInfo = (): PersonalI => ({
         lastname: '',
         gender: 'male',
         birthdate: new Date(),
-        phone: ''
+        phoneNumber: ''
     },
     profileImage: {
         id: '',
