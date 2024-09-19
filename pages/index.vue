@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <h1>Welcome to the homepage</h1>
+  <div class="flex flex-col col-span-2 justify-items-center">
+    <h1 class="col-span-1">Welcome to the homepage</h1>
+
+    <img :src="path" alt="Logo" />
     <AppAlert>
       This is an auto-imported component
     </AppAlert>
@@ -9,14 +11,29 @@
 </template>
 
 <script setup lang="ts">
-const { signOut } = useAuth()
+  import useUsersApi from "~/api/users";
 
-async function signOutUser() {
-  await signOut({
-    callbackUrl: '/users/signin',
-    redirect: true
+  const { signOut } = useAuth()
+  const { getSession, getImages } = useUsersApi()
+
+  async function signOutUser() {
+    await signOut({
+      callbackUrl: '/users/signin',
+      redirect: true
+    })
+  }
+
+  const path = ref('')
+
+  const images = async () => {
+    const session = await getSession()
+    const image = await getImages(session.data.imageId)
+    path.value = `http://localhost:3000/${image.data.path}`
+  }
+
+  onMounted(() => {
+    images()
   })
-}
 </script>
 <style>
 h1 {

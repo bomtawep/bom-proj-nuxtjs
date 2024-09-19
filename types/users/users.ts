@@ -12,7 +12,7 @@ export type TPersonalInfo = {
     lastname: string
     gender: string
     birthdate: Date
-    phone: string
+    phoneNumber: string
 }
 
 export type file = {
