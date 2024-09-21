@@ -17,9 +17,7 @@
         <PersonalForm
           v-if="currentStep === 1"
         />
-        <UploadImageForm
-          v-if="currentStep === 2"
-        />
+        <UsersUserImageForm v-if="currentStep === 2" />
         <Verify
           v-if="currentStep === 3"
         />
@@ -29,7 +27,6 @@
 </template>
 <script setup lang="ts">
   import PersonalForm from "~/components/users/PersonalForm.vue";
-  import UploadImageForm from "~/components/users/UploadImageForm.vue";
   import Verify from "~/components/users/Verify.vue";
   import { useUserSteps } from "~/module/users/steps";
   import { ActionType } from "~/const";

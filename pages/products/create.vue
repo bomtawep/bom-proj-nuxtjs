@@ -4,9 +4,9 @@
       <UCard class="rounded-xl bg-white">
         <div class="grid md:grid-cols-2 gap-4">
           <ProductsProductForm class="col-span-1"/>
-          <UsersUploadImageForm class="col-span-1" title="Upload product" @change="handleChange">
+          <ShareUploadImageForm class="col-span-1" title="Upload product" @change="handleChange">
             <img src="~/assets/img/product-delivery-ecommerce-svgrepo-com.svg" alt="product" class="w-56">
-          </UsersUploadImageForm>
+          </ShareUploadImageForm>
         </div>
       </UCard>
     </UCard>

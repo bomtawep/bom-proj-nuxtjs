@@ -5,14 +5,12 @@
         <div class="md:shrink-0">
             <img src="~/assets/img/store.png" alt="Store" class="h-64 w-full object-cover md:h-full md:w-64" />
         </div>
-
-          <UCard class="flex flex-col-reverse justify-center rounded-lg w-full">
-            <div class="flex justify-end w-full">
-              <ItemsTheme />
-            </div>
-            <UsersForm :action-type="ActionType.SIGNIN" />
-          </UCard>
-
+        <UCard class="flex flex-col-reverse justify-center rounded-lg w-full">
+          <div class="flex justify-end w-full">
+            <ItemsTheme />
+          </div>
+          <UsersForm :action-type="ActionType.SIGNIN" />
+        </UCard>
       </div>
     </div>
   </div>
