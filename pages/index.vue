@@ -1,13 +1,15 @@
 <template>
-  <div class="flex flex-col col-span-2 justify-items-center">
-    <h1 class="col-span-1">Welcome to the homepage</h1>
+    <div class="flex flex-col justify-center w-full h-full">
+      <div class="flex justify-center">
+        <h1>Welcome</h1>
 
-    <img :src="path" alt="Logo" />
-    <AppAlert>
-      This is an auto-imported component
-    </AppAlert>
-    <UButton @click="signOutUser()">Sign out</UButton>
-  </div>
+        <img class="w-64" :src="path" alt="Profile image" />
+        <AppAlert>
+          {{ name }}
+          <UButton @click="signOutUser()">Sign out</UButton>
+        </AppAlert>
+      </div>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -24,11 +26,13 @@
   }
 
   const path = ref('')
+  const name = ref('')
 
   const images = async () => {
     const session = await getSession()
     const image = await getImages(session.data.imageId)
     path.value = `http://localhost:3000/${image.data.path}`
+    name.value = `${session.data.firstname} ${session.data.lastname}`
   }
 
   onMounted(() => {

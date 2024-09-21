@@ -1,6 +1,6 @@
 <!--Create AppHeader.vue component-->
 <template>
-  <header class="sticky">
+  <header class="sticky top-0">
     <div class="flex justify-between items-center">
       <h1>{{ title.TITLE }}</h1>
       <Navigation />
@@ -10,18 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
 import { title } from "~/const";
-
-const colorMode = useColorMode()
-const isDark = computed({
-  get () {
-    return colorMode.value === 'dark'
-  },
-  set () {
-    colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
-  }
-})
 </script>
 
 <style scoped>

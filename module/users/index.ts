@@ -1,7 +1,8 @@
 import {ref} from "vue";
-import type {TImage, TPersonalInfo, TUser} from "~/types/users/users";
+import type { TPersonalInfo, TUser} from "~/types/users/users";
 import useUsersApi from "~/api/users";
 import { useUserSteps } from "~/module/users/steps";
+import { TImage } from "~/types";
 
 interface PersonalI {
     account: TUser
@@ -21,6 +22,7 @@ const initialPersonalInfo = (): PersonalI => ({
     personalInfo: {
         firstname: '',
         lastname: '',
+        nickname: '',
         gender: 'male',
         birthdate: new Date(),
         phoneNumber: ''
@@ -34,7 +36,7 @@ const initialPersonalInfo = (): PersonalI => ({
         file: new File([], '')
     },
     loading: false,
-    isEmail: false
+    isEmail: true,
 })
 
 

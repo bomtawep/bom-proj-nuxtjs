@@ -1,55 +1,55 @@
 <template>
-  <UCard>
-    <UForm
-      :schema="schema"
-      :state="account"
-      class="m-2"
-      @submit="onSubmit"
-      :validate="customValidate"
-    >
-      <div class="space-y-2">
-        <UFormGroup
-          label="Username"
-          name="username"
-        >
-          <UInput
-            v-model="account.username"
+  <UForm
+    :schema="schema"
+    :state="account"
+    @submit="onSubmit"
+    :validate="customValidate"
+  >
+    <div class="space-y-2">
+      <UFormGroup
+        :label="`${!isEmail || actionType === ActionType.SIGNIN ? 'Username' : 'Username or email'}`"
+        name="username"
+        required
+      >
+        <UInput
+          v-model="account.username"
+          :loading="loading"
+          placeholder="Enter your username"
+        />
+      </UFormGroup>
+      <UFormGroup
+          v-if="!isEmail && actionType !== ActionType.SIGNIN"
+          label="Email"
+          name="email"
+          required
+      >
+        <UInput
+            v-model="account.email"
             :loading="loading"
-            placeholder="Enter your username"
-          />
-        </UFormGroup>
-        <UFormGroup
-            v-if="!isEmail && actionType !== ActionType.SIGNIN"
-            label="Email"
-            name="email"
-        >
+            placeholder="Enter your email"
+        />
+      </UFormGroup>
+      <UFormGroup
+        label="Password"
+        name="password"
+        required
+      >
+        <div class="relative">
           <UInput
-              v-model="account.email"
-              :loading="loading"
-              placeholder="Enter your email"
+            :type="passwordVisible ? 'text' : 'password'"
+            v-model="account.password"
+            placeholder="Enter your password"
           />
-        </UFormGroup>
-        <UFormGroup
-          label="Password"
-          name="password"
-        >
-          <div class="relative">
-            <UInput
-              :type="passwordVisible ? 'text' : 'password'"
-              v-model="account.password"
-              placeholder="Enter your password"
-            />
-            <i
-              :class="`absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer ${passwordVisible ? 'i-heroicons-eye-20-solid' : 'i-heroicons-eye-slash-20-solid'}`"
-              @click="togglePasswordVisibility"
-            />
-          </div>
-        </UFormGroup>
-        <ULink v-if="actionType === ActionType.SIGNIN" class="text-blue-700" @click="handleRegister">Sign up</ULink>
-        <UsersAction :action-type="actionType" />
-      </div>
-    </UForm>
-  </UCard>
+          <i
+            :class="`absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer ${passwordVisible ? 'i-heroicons-eye-20-solid' : 'i-heroicons-eye-slash-20-solid'}`"
+            @click="togglePasswordVisibility"
+          />
+        </div>
+      </UFormGroup>
+      <ULink v-if="actionType === ActionType.SIGNIN" class="text-blue-700" @click="handleRegister">Sign up</ULink>
+      <UsersAction :action-type="actionType" />
+    </div>
+  </UForm>
 </template>
 <script setup lang="ts">
   import { useRegister } from "~/module/users";

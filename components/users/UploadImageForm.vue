@@ -1,81 +1,94 @@
 <template>
-  <UCard>
-    <UForm
-        :state="profileImage"
-        class="m-2"
-        @submit="onSubmit"
-    >
-      <div class="space-y-2">
-        <div class="text-center mx-auto">
-          <ULink
-            :href="profileImage.fileUrl"
-            class="text-primary-500"
-          >
-            <template v-if="profileImage.fileUrl">
-              <img
-                  :src="profileImage?.fileUrl"
-                  :alt="profileImage?.fileName"
-                  class="rounded-full w-48 h-48 mb-2"
-              >
-            </template>
-            <template v-else>
-              <ItemsProfile class="rounded-full w-48 h-48" />
-            </template>
-          </ULink>
-          <p class="font-semibold">
-            {{ personalInfo.firstname }} {{ personalInfo.lastname }}
-          </p>
-        </div>
-        <UInput
-            type="file"
-            ref="profileImageRef"
-            accept="image/*"
-            input-class="hidden"
-            @change="handleChangeImage"
-        />
-        <div class="grid lg:grid-cols-4 md:grid-cols-4 gap-2">
-          <UInput
-            v-model="profileImage.fileName"
-            class="w-full md:col-span-3 lg:col-span-3 xl:col-span-3"
-            disabled
-          />
-          <UButton
-            class="w-full justify-center"
-            icon="i-heroicons-camera-20-solid"
-            @click="profileImageRef.$refs.input.click()"
-          >
-            Choose image
-          </UButton>
-        </div>
-        <UsersAction />
+  <UForm
+      :state="state"
+      class="m-2"
+  >
+    <div class="space-y-2">
+      <div class="text-center mx-auto">
+        <ULink
+          :href="state.fileUrl"
+          class="text-primary-500"
+        >
+          <template v-if="state.fileUrl">
+            <img
+                :src="state.fileUrl"
+                :alt="state.fileName"
+                class="rounded-full w-48 h-48 mb-2"
+            >
+          </template>
+          <template v-else>
+            <slot />
+          </template>
+        </ULink>
+        <p class="font-semibold">
+          {{ title }}
+        </p>
       </div>
-    </UForm>
-  </UCard>
+      <UInput
+          type="file"
+          ref="imageRef"
+          accept="image/*"
+          input-class="hidden"
+          @change="handleChangeImage"
+      />
+      <div class="grid lg:grid-cols-4 md:grid-cols-4 gap-2">
+        <UInput
+          v-model="state.fileName"
+          class="w-full md:col-span-3 lg:col-span-3 xl:col-span-3"
+          disabled
+        />
+        <UButton
+          class="w-full justify-center"
+          icon="i-heroicons-camera-20-solid"
+          @click="imageRef.$refs.input.click()"
+        >
+          Choose
+        </UButton>
+      </div>
+      <UsersAction is-hidden />
+    </div>
+  </UForm>
 </template>
 <script setup lang="ts">
-import { useRegister } from "~/module/users";
-import {useUserSteps} from "~/module/users/steps";
 
-const { state } = useRegister()
-const { nextStep } = useUserSteps()
-const personalInfo = computed(() => state.value.personalInfo)
-const profileImage = computed(() => state.value.profileImage)
-const toast = useToast()
-const profileImageRef = ref<any>(null)
+  import type {TImage} from "~/types";
 
-const handleChangeImage = (event: FileList) => {
-  const file = event[0]
-  if (!file) return
+  const props = defineProps({
 
-  state.value.profileImage.file = file
-  state.value.profileImage.fileName = file.name
-  state.value.profileImage.fileSize = file.size
-  state.value.profileImage.fileType = file.type
-  state.value.profileImage.fileUrl = URL.createObjectURL(file)
-}
+    title: {
+      type: String,
+      default: 'Upload Image'
+    },
+    defaultImage: {
+      type: String,
+      default: '/src/assets/img/level-up.svg'
+    }
+  })
 
-async function onSubmit () {
-  if (!state.value.profileImage.fileName) return toast.add({ title: 'Please select a image profile', color: 'orange' })
-  nextStep()
-}
+  const imageRef = ref(null)
+  const emit = defineEmits(['change'])
+  const state = ref<TImage>({
+    id: '',
+    file: null,
+    fileName: '',
+    fileSize: 0,
+    fileType: '',
+    fileUrl: ''
+  })
+
+  const handleChangeImage = (event: FileList) => {
+
+    const file = event[0]
+
+    if (!file) return
+    state.value = {
+      id: '',
+      file: file,
+      fileName: file.name,
+      fileSize: file.size,
+      fileType: file.type,
+      fileUrl: URL.createObjectURL(file)
+    }
+    emit('change', state.value)
+  }
 </script>

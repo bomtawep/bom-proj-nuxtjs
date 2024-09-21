@@ -1,11 +1,6 @@
-import yup from "yup";
+// const phoneRegExp = /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/;
+const phoneRegExp = /^\+(?:[0-9] ?){6,14}[0-9]$/
 
-const rePhoneNumber = /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/;
-
-module.exports.rePhoneNumber = rePhoneNumber
-
-yup.addMethod(yup.string, "phone", function() {
-    return this.test("phone", "Phone number is not valid", value =>
-        rePhoneNumber.test(<string>value)
-    );
-});
+export const phoneValidator = (phoneNumber: string): boolean => {
+    return phoneRegExp.test(phoneNumber);
+}

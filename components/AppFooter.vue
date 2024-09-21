@@ -1,7 +1,5 @@
 <template>
-  <footer
-      class="fixed-bottom"
-  >
+  <footer class="fixed-bottom">
     <p>&copy; bom</p>
   </footer>
 </template>
