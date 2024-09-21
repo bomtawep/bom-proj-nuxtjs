@@ -1,5 +1,3 @@
-import {date} from "yup";
-
 export type TUser = {
     id: string
     username: string
@@ -10,6 +8,7 @@ export type TUser = {
 export type TPersonalInfo = {
     firstname: string
     lastname: string
+    nickname: string
     gender: string
     birthdate: Date
     phoneNumber: string
@@ -20,15 +19,6 @@ export type file = {
     size: number
     type: string
     lastModified: number
-}
-
-export type TImage = {
-    id: string
-    fileName: string
-    fileType: string
-    fileSize: number
-    fileUrl: string
-    file: File
 }
 
 export interface TUsers {

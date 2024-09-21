@@ -1,20 +1,13 @@
 <template>
-  <UCard class="color-bg-primary justify-items-center justify-content-center">
-    <UCarousel
-        v-slot="{ item }"
-        :items="items"
-        :ui="{ item: 'basis-full' }"
-        arrows
-        class="rounded-lg overflow-hidden w-96 h-96"
-    >
-      <img
-          class="w-full h-full object-cover"
-          :src="item"
-          draggable="false"
-          alt="test"
-      >
-    </UCarousel>
-  </UCard>
+  <div class="container mx-auto max-w-[1000px] p-4">
+    <UCard class="rounded-xl bg-gray-400 shadow-2xl">
+      <div class="grid md:grid-cols-2 gap-4">
+        <UCard v-for="i in items">
+          <img :src="i" :alt="i" class="w-44" />
+        </UCard>
+      </div>
+    </UCard>
+  </div>
 </template>
 <script setup lang="ts">
 const items = [

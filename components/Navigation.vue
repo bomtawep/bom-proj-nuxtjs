@@ -1,14 +1,11 @@
 <template>
-  <UHorizontalNavigation :links="links" class="border-b border-gray-200 dark:border-gray-800" />
+  <UHorizontalNavigation :links="links" class="dark:border-gray-800" />
 </template>
 <script setup lang="ts">
   const links = [
     { label: 'Home', icon: 'i-heroicons-home', to: '/' },
-    { label: 'Logo', to: '/logo' },
-    { label: 'About', to: '/about' },
-    { label: 'Post 1', to: '/posts/1' },
-    { label: 'Post 2', to: '/posts/2' },
-    { label: 'Users', to: '/users/users' },
+    { label: 'Product', to: '/products/products' },
+    { label: 'Your product', to: '/products/product' },
   ]
 </script>
 <style scoped>

@@ -1,14 +1,16 @@
 <template>
-  <div class="flex justify-center space-x-5">
+  <div :class="`flex justify-center space-x-5 ${isHidden ? 'hidden' : ''}`">
     <UButton
       v-if="actionType === ActionType.SIGNUP"
       type="button"
+      class="bg-amber-500 hover:bg-amber-600"
       @click="handleBack"
     >
       Back
     </UButton>
     <UButton
       type="submit"
+      class="bg-sky-500 hover:bg-sky-600"
     >
       {{
         actionType === ActionType.SIGNUP
@@ -27,6 +29,10 @@
       type: String,
       default: ActionType.SIGNUP
     },
+    isHidden: {
+      type: Boolean,
+      default: false
+    }
   })
   const { currentStep } = useUserSteps()
   const router = useRouter()

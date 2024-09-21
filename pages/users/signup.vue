@@ -5,20 +5,25 @@
         :value="currentStep"
         :max="steps"
       />
-      <h1>Register</h1>
-      <UsersForm
-        v-if="currentStep === 0"
-        :action-type="ActionType.SIGNUP"
-      />
-      <PersonalForm
-        v-if="currentStep === 1"
-      />
-      <UploadImageForm
-        v-if="currentStep === 2"
-      />
-      <Verify
-        v-if="currentStep === 3"
-      />
+      <div class="text-xl">Register</div>
+      <UCard class="rounded-lg shadow-2xl">
+        <div class="flex justify-end w-full">
+          <ItemsTheme />
+        </div>
+        <UsersForm
+          v-if="currentStep === 0"
+          :action-type="ActionType.SIGNUP"
+        />
+        <PersonalForm
+          v-if="currentStep === 1"
+        />
+        <UploadImageForm
+          v-if="currentStep === 2"
+        />
+        <Verify
+          v-if="currentStep === 3"
+        />
+      </UCard>
     </div>
   </div>
 </template>
