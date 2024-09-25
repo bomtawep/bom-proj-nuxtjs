@@ -1,5 +1,5 @@
 <template>
-  <div :class="`flex justify-center space-x-5 ${isHidden ? 'hidden' : ''}`">
+  <div class="flex justify-center space-x-5">
     <UButton
       v-if="actionType === ActionType.SIGNUP"
       type="button"
@@ -29,10 +29,6 @@
       type: String,
       default: ActionType.SIGNUP
     },
-    isHidden: {
-      type: Boolean,
-      default: false
-    }
   })
   const { currentStep } = useUserSteps()
   const router = useRouter()

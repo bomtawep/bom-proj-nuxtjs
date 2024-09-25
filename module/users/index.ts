@@ -2,7 +2,7 @@ import {ref} from "vue";
 import type { TPersonalInfo, TUser} from "~/types/users/users";
 import useUsersApi from "~/api/users";
 import { useUserSteps } from "~/module/users/steps";
-import { TImage } from "~/types";
+import type { TImage } from "~/types";
 
 interface PersonalI {
     account: TUser

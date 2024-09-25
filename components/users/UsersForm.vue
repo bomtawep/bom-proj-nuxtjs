@@ -62,7 +62,7 @@
   const props = defineProps({
     actionType: {
       type: String,
-      default: ActionType.SIGNIN
+      default: ActionType.SIGNUP
     }
   })
 
