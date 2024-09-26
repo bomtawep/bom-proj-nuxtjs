@@ -1,16 +1,17 @@
 <!--Create AppHeader.vue component-->
 <template>
-  <header class="sticky top-0">
-    <div class="flex justify-between items-center">
+  <header class="sticky top-0 z-10">
+    <div class="flex max-sm:flex-col items-center">
       <h1>{{ title.TITLE }}</h1>
       <Navigation />
-      <ItemsTheme/>
+      <ItemsTheme />
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
 import { title } from "~/const";
+
 </script>
 
 <style scoped>

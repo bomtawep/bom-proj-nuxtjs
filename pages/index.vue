@@ -1,22 +1,23 @@
 <template>
-    <div class="flex flex-col justify-center w-full h-full">
-      <div class="flex justify-center">
-        <h1>Welcome</h1>
-
-        <img class="w-64" :src="path" alt="Profile image" />
-        <AppAlert>
-          {{ name }}
-          <UButton @click="signOutUser()">Sign out</UButton>
-        </AppAlert>
-      </div>
+  <div class="flex justify-center w-full">
+    <div class="flex md:flex-col justify-center w-full h-full">
+      <h1>Welcome</h1>
+      <img class="w-64" :src="path" alt="Profile image" />
+      <AppAlert>
+        {{ name }}
+        <UButton @click="signOutUser()">Sign out</UButton>
+      </AppAlert>
     </div>
+  </div>
 </template>
 
 <script setup lang="ts">
   import useUsersApi from "~/api/users";
+  import { useImagesApi } from "~/api/images";
 
   const { signOut } = useAuth()
-  const { getSession, getImages } = useUsersApi()
+  const { getImages } = useImagesApi()
+  const { getSession } = useUsersApi()
 
   async function signOutUser() {
     await signOut({

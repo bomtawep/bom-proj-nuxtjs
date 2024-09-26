@@ -1,10 +1,13 @@
+import {date} from "yup";
+
 export type TProduct = {
+    brandId: string;
+    productTypeId: string;
     name: string;
     price: number;
+    cost: number;
     stock: number;
     description: string;
-    category: string;
-    brand: string;
     status: string;
     weight: number;
     length: number;
@@ -13,6 +16,6 @@ export type TProduct = {
     discount: number;
     discountType: string;
     discountValue: number;
-    discountStart: string;
-    discountEnd: string;
+    discountStart: Date;
+    discountEnd: Date;
 }

@@ -1,31 +1,32 @@
 <template>
   <UForm
     :schema="schema"
-    :state="account"
+    :state="state.account"
     @submit="onSubmit"
     :validate="customValidate"
   >
     <div class="space-y-2">
       <UFormGroup
-        :label="`${!isEmail || actionType === ActionType.SIGNIN ? 'Username' : 'Username or email'}`"
+        :label="`${!state.isEmail || actionType === ActionType.SIGNIN ? 'Username' : 'Username or email'}`"
         name="username"
         required
       >
         <UInput
-          v-model="account.username"
-          :loading="loading"
+          v-model="state.account.username"
+          :loading="state.loading"
           placeholder="Enter your username"
         />
       </UFormGroup>
       <UFormGroup
-          v-if="!isEmail && actionType !== ActionType.SIGNIN"
+          v-if="!state.isEmail && actionType !== ActionType.SIGNIN"
           label="Email"
           name="email"
           required
+          :error="getError('email')"
       >
         <UInput
-            v-model="account.email"
-            :loading="loading"
+            v-model="state.account.email"
+            :loading="state.loading"
             placeholder="Enter your email"
         />
       </UFormGroup>
@@ -37,7 +38,7 @@
         <div class="relative">
           <UInput
             :type="passwordVisible ? 'text' : 'password'"
-            v-model="account.password"
+            v-model="state.account.password"
             placeholder="Enter your password"
           />
           <i
@@ -70,17 +71,14 @@
   const { nextStep } = useUserSteps()
   const { schema, customValidate } = useSignin()
   const toast = useToast()
-  const account = computed(() => state.value.account)
-  const loading = computed(() => state.value.loading)
-  const isEmail = computed(() => state.value.isEmail)
   const { signIn } = useAuth()
   const router = useRouter()
   const passwordVisible = ref(false)
 
   async function signInWithCredentials() {
     const credentials = {
-      username: account.value.username,
-      password: account.value.password,
+      username: state.value.account.username,
+      password: state.value.account.password,
     }
     try {
       return await signIn(credentials, {
@@ -102,7 +100,12 @@
     passwordVisible.value = !passwordVisible.value
   }
 
-  async function onSubmit (event: FormSubmitEvent<Schema>) {
+  function getError(field: string) {
+    const error = customValidate(state.value.account).find(e => e.field === field)
+    return error ? error.message : ''
+  }
+
+  async function onSubmit (_: FormSubmitEvent<Schema>) {
     if (props.actionType !== ActionType.SIGNIN) {
       const response = await verify()
       if (response.statusCode !== StatusCode.CREATED)

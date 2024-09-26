@@ -96,9 +96,11 @@
   import { StatusType } from "~/const/users";
   import { StatusCode } from "~/const/statusCode";
   import { convertToThaiDate } from "~/utils/convertToThaiDate";
+  import {useImagesApi} from "~/api/images";
 
   const { state, resetUser } = useRegister()
-  const { postUser, uploadImage } = useUsersApi()
+  const { postUser } = useUsersApi()
+  const { uploadImage } = useImagesApi()
   const router = useRouter();
   const toast = useToast()
   const personalInfo = computed(() => state.value.personalInfo)
@@ -107,7 +109,7 @@
 
   async function onSubmit () {
     const { id, ...acc } = account.value
-
+    console.log('state.value.profileImage.file', state.value.profileImage)
     const responseImage = await uploadImage(state.value.profileImage.file)
     if (responseImage.statusCode !== 201) return toast.add({ title: responseImage.message, color: 'red'})
 

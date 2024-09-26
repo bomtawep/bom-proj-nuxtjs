@@ -25,9 +25,10 @@
     name: ActionType.SIGNIN
   })
 
-  const { resetUser } = useRegister()
+  const { resetUser, state } = useRegister()
 
   onMounted(() => {
     resetUser()
+    state.value.actionType = ActionType.SIGNIN
   })
 </script>

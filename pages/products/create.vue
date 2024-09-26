@@ -17,10 +17,10 @@
   import { useProducts } from "~/module/products/products"
   import type { TImage } from "~/types";
 
-  const { resetProducts } = useProducts()
+  const { resetProducts, state, schema, onSubmit } = useProducts()
 
   const handleChange = (image: TImage) => {
-    console.log("image", image)
+    state.value.productImage = image
   }
 
   onMounted(() => {
