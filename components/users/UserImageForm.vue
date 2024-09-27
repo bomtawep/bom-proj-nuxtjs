@@ -14,18 +14,18 @@
     import { ActionType } from "~/const";
     import { useRegister } from "~/module/users";
     import { useUserSteps } from "~/module/users/steps";
+    import type { TImage } from "~/types";
 
     const { state } = useRegister()
     const toast = useToast()
     const { nextStep } = useUserSteps()
     const profileImg = computed(() => state.value.profileImage)
     const handleChangeImage = (image: TImage) => {
-        state.value.profileImage = image
+      state.value.profileImage = image
     }
     
     const onSubmit = () => {
-        console.log(state.profileImage)
-        if (!state.profileImage) return toast.add({title: "Please upload profile image.", color:"orange"})
+        if (!state.value.profileImage) return toast.add({title: "Please upload profile image.", color:"orange"})
         nextStep()
     }
 </script>

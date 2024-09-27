@@ -3,6 +3,7 @@ import type { TPersonalInfo, TUser} from "~/types/users/users";
 import useUsersApi from "~/api/users";
 import { useUserSteps } from "~/module/users/steps";
 import type { TImage } from "~/types";
+import {ActionType} from "~/const";
 
 interface PersonalI {
     account: TUser
@@ -10,6 +11,7 @@ interface PersonalI {
     profileImage: TImage
     loading: boolean
     isEmail: boolean
+    actionType: string
 }
 
 const initialPersonalInfo = (): PersonalI => ({
@@ -37,6 +39,7 @@ const initialPersonalInfo = (): PersonalI => ({
     },
     loading: false,
     isEmail: true,
+    actionType: ActionType.SIGNIN
 })
 
 

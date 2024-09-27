@@ -1,12 +1,22 @@
 <template>
-  <UHorizontalNavigation :links="links" class="dark:border-gray-800" />
+  <ItemsHamburger @click="handleClick" class="sm:hidden" :is-open="!isShow" />
+  <UHorizontalNavigation class="max-sm:hidden md:block" :links="links" />
+  <UVerticalNavigation :class="`${!isShow ? 'hidden' : ''} sm:hidden`" :links="links" />
 </template>
 <script setup lang="ts">
   const links = [
     { label: 'Home', icon: 'i-heroicons-home', to: '/' },
     { label: 'Product', to: '/products/products' },
     { label: 'Your product', to: '/products/product' },
+    { label: 'Product type', to: '/product-type/list' },
+    { label: 'Brand', to: '/brand/list' },
   ]
+
+  const isShow = ref(false)
+
+  const handleClick = () => {
+    isShow.value = !isShow.value
+  }
 </script>
 <style scoped>
 nav {

@@ -32,4 +32,8 @@ definePageMeta({
 const handleCreate = () => {
   navigateTo('/products/create')
 }
+
+onMounted(() => {
+  console.log('mounted')
+})
 </script>

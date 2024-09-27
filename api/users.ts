@@ -1,74 +1,52 @@
 import type {TResponse} from "~/types/response";
 import type {TUser} from "~/types/users/users";
+import { useAxios } from "~/api/index";
 
 export default function useUsersApi() {
-    // const { $axios } = useContext();
-    const config = useRuntimeConfig();
-    const host = config.public.apiBase;
-    const cookie = useCookie('bom_access_token');
-    // Get users with useAsyncData
+    const { axios } = useAxios();
     const getUsers = async (): Promise<TResponse> => {
-        const res = await fetch(`${host}/users`,{
-            headers: { "Content-Type": "application/json" },
+
+        const res = await axios.request({
+            url: "/users"
         });
-        return await res.json();
+        return res.data
     }
     const postUser = async (user: TUser): Promise<TResponse> => {
-        const res = await fetch(`${host}/users`,{
+        const res = await axios.request({
+            url: "/users",
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(user)
+            data: user
         });
-        return await res.json();
+        return res.data
     }
     const deleteUserById = async (id: number): Promise<TResponse> => {
-        const res = await fetch(`${host}/users/${id}`,{
+        const res = await axios.request({
+            url: `/users/${id}`,
             method: "DELETE",
-            headers: { "Content-Type": "application/json" },
         });
-        return await res.json();
-    }
-    const uploadImage = async (image: File, userId: string): Promise<TResponse> => {
-        const formData = new FormData();
-        formData.append('file', image);
-        const res = await fetch(`${host}/images`,{
-            method: "POST",
-            body: formData
-        });
-        return await res.json();
+        return res.data
     }
 
-    const getImages = async (imageId: string): Promise<TResponse> => {
-        const res = await fetch(`${host}/images/${imageId}`,{
-            headers: { "Content-Type": "application/json" },
-        });
-        return await res.json();
-    }
     const verifyUsernameEmail = async (email: { Email: string }): Promise<TResponse> => {
-        const res = await fetch(`${host}/users/verify`,{
+        const res = await axios.request({
+            url: "users/verify",
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(email)
+            data: email
         });
-        return await res.json();
+        return res.data
     }
 
     const getSession = async (): Promise<any> => {
-        const res = await fetch(`${host}/auth/session`,{
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${cookie.value}`
-            },
+        const res = await axios.request({
+            url: "/auth/session"
         });
-        return await res.json();
+        return res.data
     }
     return {
         getUsers,
         postUser,
         deleteUserById,
-        uploadImage,
         verifyUsernameEmail,
         getSession,
-        getImages,
     };
 }

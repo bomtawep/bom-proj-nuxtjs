@@ -39,9 +39,10 @@
   })
 
   const { steps, currentStep } = useUserSteps()
-  const { resetUser } = useRegister()
+  const { resetUser, state } = useRegister()
 
   onMounted(() => {
     resetUser()
+    state.value.actionType = ActionType.SIGNUP
   })
 </script>

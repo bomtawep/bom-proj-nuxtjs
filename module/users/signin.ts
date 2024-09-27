@@ -2,6 +2,7 @@ import { type InferType, object, string } from "yup";
 import type {TUser} from "~/types/users/users";
 import type {FormError} from "#ui/types";
 import {useRegister} from "~/module/users/index";
+import {ActionType} from "~/const";
 
 const schema = object({
     username: string().min(6),
@@ -25,12 +26,23 @@ export const useSignin = () => {
         return re.test(String(email).toLowerCase());
     }
     const customValidate = (account: TUser): FormError[] => {
-        const errors: FormError[] = [];
+        const errors: FormError[] = []
         if (checkIsEmail(account.username)) {
             account.email = account.username
             state.value.isEmail = true
         } else {
             state.value.isEmail = false
+        }
+
+        if (
+            account.email.length < 1 &&
+            !state.value.isEmail &&
+            state.value.actionType !== ActionType.SIGNIN
+        ) {
+            errors.push({
+                field: 'email',
+                message: 'Please enter your email address'
+            })
         }
 
         return errors;
