@@ -17,10 +17,12 @@
   />
 </template>
 <script setup lang="ts">
-
+  interface DataItem {
+    [key: string]: any;
+  }
   const props = defineProps({
     data: {
-      type: Array,
+      type: Array as () => DataItem[],
       default: () => []
     },
     loading: {

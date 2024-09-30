@@ -1,5 +1,3 @@
-import {useConfig} from "~/api/config";
-import type {TUser} from "~/types/users/users";
 import type {TResponse} from "~/types/response";
 import type {TProductType} from "~/types/product-type";
 import {useAxios} from "~/api/index";

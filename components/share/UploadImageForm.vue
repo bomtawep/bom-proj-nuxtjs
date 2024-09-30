@@ -34,9 +34,10 @@
         disabled
       />
       <UButton
+        v-if="imageRef"
         class="w-full justify-center"
         icon="i-heroicons-camera-20-solid"
-        @click="imageRef.$refs.input.click()"
+        @click="imageRef.value.click()"
       >
         Choose
       </UButton>
@@ -44,7 +45,7 @@
   </div>
 </template>
 <script setup lang="ts">
-
+  import { ref } from 'vue';
   import type {TImage} from "~/types";
 
   const props = defineProps({
@@ -59,11 +60,11 @@
     }
   })
 
-  const imageRef = ref(null)
+  const imageRef = ref<HTMLInputElement | null>(null);
   const emit = defineEmits(['change'])
   const state = ref<TImage>({
     id: '',
-    file: null,
+    file: new File([], ''),
     fileName: '',
     fileSize: 0,
     fileType: '',

@@ -109,20 +109,19 @@
 
   async function onSubmit () {
     const { id, ...acc } = account.value
-    console.log('state.value.profileImage.file', state.value.profileImage)
     const responseImage = await uploadImage(state.value.profileImage.file)
-    if (responseImage.statusCode !== 201) return toast.add({ title: responseImage.message, color: 'red'})
+    if (responseImage.status !== StatusCode.CREATED) return toast.add({ title: responseImage.message, color: 'red'})
 
 
     const payload = {
       ...acc,
       ...personalInfo.value,
       status: StatusType.ACTIVE,
-      imageId: responseImage.data.id
+      imageId: responseImage.data.user.id
     }
 
     const response = await postUser(payload)
-    if (response.statusCode !== StatusCode.CREATED) return toast.add({ title: response.message, color: 'red'})
+    if (response.status !== StatusCode.CREATED) return toast.add({ title: response.message, color: 'red'})
     await navigateTo('/users/signin')
     resetUser()
   }

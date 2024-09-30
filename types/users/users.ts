@@ -1,3 +1,12 @@
+export type TEmail = {
+    email: string
+}
+
+export type TUsername = {
+    email: string
+    username: string
+}
+
 export type TUser = {
     id: string
     username: string

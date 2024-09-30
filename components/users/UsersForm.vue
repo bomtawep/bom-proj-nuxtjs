@@ -54,7 +54,7 @@
 </template>
 <script setup lang="ts">
   import { useRegister } from "~/module/users";
-  import type { FormSubmitEvent } from '#ui/types'
+  import type { FormError, FormSubmitEvent } from '#ui/types'
   import { useUserSteps } from "~/module/users/steps";
   import { ActionType } from "~/const";
   import { StatusCode } from "~/const/statusCode";
@@ -101,15 +101,15 @@
   }
 
   function getError(field: string) {
-    const error = customValidate(state.value.account).find(e => e.field === field)
+    const error = customValidate(state.value.account).find((e: FormError) => e.path === field)
     return error ? error.message : ''
   }
 
   async function onSubmit (_: FormSubmitEvent<Schema>) {
     if (props.actionType !== ActionType.SIGNIN) {
       const response = await verify()
-      if (response.statusCode !== StatusCode.CREATED)
-        return toast.add({title: response.message, color:"orange"})
+      if (response?.status !== StatusCode.CREATED)
+        return toast.add({title: response?.message, color:"orange"})
       nextStep()
     } else {
       const response = await signInWithCredentials()

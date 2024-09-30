@@ -58,7 +58,6 @@ export const useRegister = () => {
     }
 
     const verify = async () => {
-        if (!state.value.account.username) return
         state.value.loading = true
         const payload =
         state.value.isEmail ?
@@ -69,11 +68,9 @@ export const useRegister = () => {
                 email: state.value.account.email
             }
         try {
-            const response = await verifyUsernameEmail(payload)
-            if (!response) return
-            return response
+            return await verifyUsernameEmail(payload)
         } catch (error) {
-            return error
+            console.log(error) 
         } finally {
             state.value.loading = false
         }

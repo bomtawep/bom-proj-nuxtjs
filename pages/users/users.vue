@@ -5,15 +5,17 @@
       Create user
     </UButton>
     <ul v-if="data">
-      <li v-for="user in data" :key="user.id">
+      <li v-for="user in data" :key="user.firstname + user.lastname + new Date()">
         {{ user.firstname }}
       </li>
     </ul>
   </div>
 </template>
 <script setup lang="ts">
+  import { ref, onMounted } from 'vue';
+  import { useRouter } from 'vue-router';
   import useUsersApi from '~/api/users';
-  import type { TUser } from '~/types/users/users';
+  import type { TPersonalInfo } from "~/types/users/users";
 
   const router = useRouter();
   const createUser = () => {
@@ -21,10 +23,9 @@
   };
 
   const { getUsers } = useUsersApi();
-  const data = ref<TUser[]>([]);
+  const data = ref<TPersonalInfo[]>([]);
   const fetchUsers = async () => {
     const response = await getUsers();
-    console.log(response.data, 'data');
     data.value = response.data.user;
   };
   onMounted(

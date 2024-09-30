@@ -1,4 +1,4 @@
 export type TProductType = {
-    id: string
+    id?: string
     name: string
 }
