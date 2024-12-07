@@ -3,7 +3,7 @@
   <header class="sticky top-0 z-10">
     <div class="flex max-sm:flex-col items-center">
       <h1>{{ title.TITLE }}</h1>
-      <Navigation />
+      <AppNavigation />
       <ItemsTheme />
     </div>
   </header>
@@ -11,6 +11,7 @@
 
 <script setup lang="ts">
 import { title } from "~/const";
+import AppNavigation from '~/components/AppNavigation.vue';
 
 </script>
 

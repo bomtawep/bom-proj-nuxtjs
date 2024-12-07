@@ -3,10 +3,6 @@
     <AppHeader />
     <div class="flex-1">
       <slot />
-      <div v-if="$route.params.id">
-        <NuxtLink :to="prev"><--</NuxtLink> |
-        <NuxtLink :to="next">--></NuxtLink>
-      </div>
     </div>
     <AppFooter />
   </div>

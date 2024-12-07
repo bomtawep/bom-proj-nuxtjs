@@ -8,7 +8,6 @@ export const useImagesApi = () => {
     const uploadImage = async (image: File): Promise<TResponse> => {
         const formData = new FormData();
         formData.append('file', image);
-        console.log("image", image)
         const res = await axios.request({
             url: '/images',
             method: 'POST',

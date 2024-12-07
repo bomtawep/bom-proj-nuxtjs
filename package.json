@@ -8,9 +8,11 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "lint": "eslint ."
   },
   "dependencies": {
+    "@nuxt/eslint": "^0.5.7",
     "@nuxt/ui": "^2.15.2",
     "@sidebase/nuxt-auth": "^0.7.2",
     "axios": "^1.7.7",
@@ -18,10 +20,12 @@
     "nuxt": "^3.11.2",
     "v-calendar": "^3.1.2",
     "vue-router": "^4.3.0",
-    "vue-tel-input": "^9.1.2",
+    "vue-tel-input": "^9.2.0",
     "yup": "^1.4.0"
   },
   "devDependencies": {
-    "@types/vue-tel-input": "^2.1.6"
+    "@nuxt/eslint-config": "^0.5.7",
+    "@types/vue-tel-input": "^2.1.6",
+    "eslint": "^9.11.1"
   }
 }

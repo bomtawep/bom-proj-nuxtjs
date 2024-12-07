@@ -4,9 +4,9 @@
       <UCard class="rounded-xl bg-white">
         <div class="grid md:grid-cols-2 gap-4">
           <ProductsProductForm class="col-span-1"/>
-          <ShareUploadImageForm class="col-span-1" title="Upload product" @change="handleChange">
+          <ShareUploadFile class="col-span-1" title="Upload product" @change="handleChange" :modal-value="state.productImage">
             <img src="~/assets/img/product-delivery-ecommerce-svgrepo-com.svg" alt="product" class="w-56">
-          </ShareUploadImageForm>
+          </ShareUploadFile>
         </div>
       </UCard>
     </UCard>
@@ -15,11 +15,11 @@
 <script setup lang="ts">
 
   import { useProducts } from "~/module/products/products"
-  import type { TImage } from "~/types";
+  import type { TFile } from "~/types";
 
-  const { resetProducts, state, schema, onSubmit } = useProducts()
+  const { resetProducts, state} = useProducts()
 
-  const handleChange = (image: TImage) => {
+  const handleChange = (image: TFile) => {
     state.value.productImage = image
   }
 

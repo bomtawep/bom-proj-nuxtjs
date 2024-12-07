@@ -14,23 +14,34 @@
             </ItemsModal>
         </div>
         <div class="grid gap-4">
-          <ItemsList :data="productTypeState.productTypes" :loading="productTypeState.loading"/>
+          <ItemsList :options="productList"/>
         </div>
       </UCard>
     </UCard>
   </div>
 </template>
 <script setup lang="ts">
-
-import { useProducts } from "~/module/products/products"
-import type { TImage } from "~/types";
 import {useProductType} from "~/module/product-type";
-import Modal from "~/components/items/Modal.vue";
 import {useMain} from "~/module";
 
 const { resetProductType } = useProductType()
 const { state } = useMain()
 const { fetchProductTypes, state: productTypeState } = useProductType()
+
+const productList = computed(() => ({
+    data: productTypeState.value.productTypes,
+    loading: productTypeState.value.loading,
+    columns: [
+        {
+          label: 'No.',
+          key: 'id',
+        },
+        {
+          label: 'Name',
+          key: 'name',
+        },
+    ]
+}))
 
 onMounted(() => {
   resetProductType()

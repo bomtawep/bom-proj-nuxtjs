@@ -4,9 +4,9 @@
         class="m-2"
         @submit="onSubmit"
     >
-        <ShareUploadImageForm @change="handleChangeImage" class="mb-2">
+        <ShareUploadFile :modal-value="profileImg" @change="handleChangeImage" class="mb-2">
             <img src="~/assets/img/level-up.svg" alt="Profile image" class="w-56"/>
-        </ShareUploadImageForm>
+        </ShareUploadFile>
         <UsersAction :action-type="ActionType.SIGNUP" />
     </UForm>
 </template>
@@ -14,13 +14,13 @@
     import { ActionType } from "~/const";
     import { useRegister } from "~/module/users";
     import { useUserSteps } from "~/module/users/steps";
-    import type { TImage } from "~/types";
+    import type { TFile } from "~/types";
 
     const { state } = useRegister()
     const toast = useToast()
     const { nextStep } = useUserSteps()
     const profileImg = computed(() => state.value.profileImage)
-    const handleChangeImage = (image: TImage) => {
+    const handleChangeImage = (image: TFile) => {
       state.value.profileImage = image
     }
     

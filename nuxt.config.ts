@@ -39,7 +39,7 @@ export default defineNuxtConfig({
     viewTransition: true
   },
 
-  modules: ["@sidebase/nuxt-auth"],
+  modules: ["@sidebase/nuxt-auth", "@nuxt/eslint"],
   auth: {
     globalAppMiddleware: true,
     baseURL: process.env.NEXT_PUBLIC_API_URL,

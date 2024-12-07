@@ -1,20 +1,21 @@
 import { useAxios } from "~/api/index";
 import type { TResponse } from "~/types/response";
-import type { TBrand } from "~/types/brand";
-import type { TFile } from "~/types";
+import type {TBrand} from "~/types/brand";
+import type {TProduct} from "~/types/product";
 
-export const useProductsApi = () => {
+export const useProductApi = () => {
 
     const {axios} = useAxios();
 
-    const getProducts = async (): Promise<TResponse> => {
+    const getProduct = async (): Promise<TResponse> => {
 
         const res = await axios.request({
             url: "/products"
         });
         return res.data
     }
-    const postProduct = async (user: TBrand): Promise<TResponse> => {
+
+    const postProduct = async (user: TProduct): Promise<TResponse> => {
         const res = await axios.request({
             url: "/products",
             method: "POST",
@@ -24,7 +25,7 @@ export const useProductsApi = () => {
     }
 
     return {
-        getProducts,
+        getProduct,
         postProduct,
     }
 }

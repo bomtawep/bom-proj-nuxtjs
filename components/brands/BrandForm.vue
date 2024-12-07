@@ -23,10 +23,8 @@
 </template>
 <script setup lang="ts">
 
-import {useMain} from "~/module";
 import {useBrand} from "~/module/brand";
 
-const { state } = useMain()
 const { schema, state: brandState, onSubmit, resetBrand } = useBrand()
 
 onMounted(() => {

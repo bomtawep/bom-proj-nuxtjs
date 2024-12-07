@@ -1,5 +1,5 @@
 <template>
-  <ItemsHamburger @click="handleClick" class="sm:hidden" :is-open="!isShow" />
+  <ItemsHamburger class="sm:hidden" :is-open="!isShow" @click="handleClick" />
   <UHorizontalNavigation class="max-sm:hidden md:block" :links="links" />
   <UVerticalNavigation :class="`${!isShow ? 'hidden' : ''} sm:hidden`" :links="links" />
 </template>

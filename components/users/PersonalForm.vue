@@ -82,6 +82,7 @@ import 'vue-tel-input/vue-tel-input.css';
 import { useUserSteps } from "~/module/users/steps";
 import { useRegister } from "~/module/users";
 import { usePersonal } from "~/module/users/personal";
+import type { FormError } from "#ui/types";
 
 const schema = object({
   firstname: string().required('Required'),
@@ -106,7 +107,7 @@ const gender = computed({
 })
 
 function getError(field: string) {
-  const error = customValidate(personalInfo.value).find(e => e.field === field)
+  const error = customValidate(personalInfo.value).find((e: FormError) => e.path === field)
   return error ? error.message : ''
 }
 

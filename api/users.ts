@@ -1,6 +1,7 @@
-import type {TResponse} from "~/types/response";
-import type {TUser} from "~/types/users/users";
+import type { TResponse } from "~/types/response";
+import type { TEmail, TPersonalInfo, TUser, TUsername } from "~/types/users/users";
 import { useAxios } from "~/api/index";
+import type { TFile } from "~/types";
 
 export default function useUsersApi() {
     const { axios } = useAxios();
@@ -11,7 +12,7 @@ export default function useUsersApi() {
         });
         return res.data
     }
-    const postUser = async (user: TUser): Promise<TResponse> => {
+    const postUser = async (user: TUser | TPersonalInfo): Promise<TResponse> => {
         const res = await axios.request({
             url: "/users",
             method: "POST",
@@ -27,7 +28,7 @@ export default function useUsersApi() {
         return res.data
     }
 
-    const verifyUsernameEmail = async (email: { Email: string }): Promise<TResponse> => {
+    const verifyUsernameEmail = async (email: TEmail | TUsername): Promise<TResponse> => {
         const res = await axios.request({
             url: "users/verify",
             method: "POST",
@@ -36,7 +37,7 @@ export default function useUsersApi() {
         return res.data
     }
 
-    const getSession = async (): Promise<any> => {
+    const getSession = async (): Promise<TResponse> => {
         const res = await axios.request({
             url: "/auth/session"
         });

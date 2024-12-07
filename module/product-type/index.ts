@@ -2,7 +2,6 @@ import { object, string } from "yup";
 import type { TProductType } from "~/types/product-type";
 import { useProductTypesApi } from "~/api/product-types";
 import {useMain} from "~/module";
-import {loading} from "@nuxt/ui-templates";
 
 interface IProductType {
     productsType: TProductType
@@ -36,7 +35,7 @@ export const useProductType = () => {
 
     const fetchProductTypes = async () => {
         state.value.loading = true
-        const { data } = await getProductTypes()
+        const { data } = await getProductTypes({ page: 1, pageSize: 10, limit: 5 })
         state.value.productTypes = data
         state.value.loading = false
     }

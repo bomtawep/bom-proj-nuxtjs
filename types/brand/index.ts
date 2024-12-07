@@ -1,4 +1,5 @@
 export type TBrand = {
-    id: string
+    id?: string
     name: string
+    imageId?: string
 }
