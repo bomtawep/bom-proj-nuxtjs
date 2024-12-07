@@ -20,7 +20,7 @@
     "nuxt": "^3.11.2",
     "v-calendar": "^3.1.2",
     "vue-router": "^4.3.0",
-    "vue-tel-input": "^9.1.2",
+    "vue-tel-input": "^9.2.0",
     "yup": "^1.4.0"
   },
   "devDependencies": {

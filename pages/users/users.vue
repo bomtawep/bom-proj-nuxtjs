@@ -15,7 +15,7 @@
   import { ref, onMounted } from 'vue';
   import { useRouter } from 'vue-router';
   import useUsersApi from '~/api/users';
-  import type { TPersonalInfo } from "~/types/users/users";
+  import type { TPersonalInfo } from '~/types/users/users';
 
   const router = useRouter();
   const createUser = () => {

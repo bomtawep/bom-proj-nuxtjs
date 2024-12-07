@@ -3,5 +3,6 @@ import type { TBrand } from './brand';
 export interface TResponse {
     data: any;
     status: number;
+    statusCode: number;
     message: string;
 }

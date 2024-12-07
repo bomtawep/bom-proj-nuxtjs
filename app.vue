@@ -15,6 +15,8 @@
 <script setup lang="ts">
   import Signin from "~/layouts/signin.vue";
   import { ActionType, title } from "~/const";
+  import { useRoute } from "vue-router";
+  import { useHead, useSeoMeta } from "@unhead/vue";
 
   const route = useRoute()
   const routeName = computed(() => route.name || '/')

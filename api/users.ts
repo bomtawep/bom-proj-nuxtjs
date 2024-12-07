@@ -1,7 +1,7 @@
 import type { TResponse } from "~/types/response";
 import type { TEmail, TPersonalInfo, TUser, TUsername } from "~/types/users/users";
 import { useAxios } from "~/api/index";
-import type { TImage } from "~/types";
+import type { TFile } from "~/types";
 
 export default function useUsersApi() {
     const { axios } = useAxios();

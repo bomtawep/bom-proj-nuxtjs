@@ -1,6 +1,7 @@
 import type {TResponse} from "~/types/response";
 import type {TProductType} from "~/types/product-type";
 import {useAxios} from "~/api/index";
+import type {TPagination} from "~/types";
 
 export const useProductTypesApi = () => {
 
@@ -15,9 +16,9 @@ export const useProductTypesApi = () => {
         return res.data;
     }
 
-    const getProductTypes = async (): Promise<TResponse> => {
+    const getProductTypes = async (pagination?: TPagination): Promise<TResponse> => {
         const res = await axios.request({
-            url: "/product-types",
+            url: `/product-types?page=${pagination?.page}&pageSize=${pagination?.pageSize}&limit=${pagination?.limit}`,
         });
         return res.data;
     }

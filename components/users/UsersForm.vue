@@ -86,7 +86,7 @@
         redirect: true
       })
     } catch (error) {
-      return error
+      throw error
     }
   }
 
@@ -108,12 +108,15 @@
   async function onSubmit (_: FormSubmitEvent<Schema>) {
     if (props.actionType !== ActionType.SIGNIN) {
       const response = await verify()
-      if (response?.status !== StatusCode.CREATED)
+      if (response?.statusCode !== StatusCode.CREATED)
         return toast.add({title: response?.message, color:"orange"})
       nextStep()
     } else {
-      const response = await signInWithCredentials()
-      if (response) return toast.add({title: response.message, color:"orange"})
+      try {
+        await signInWithCredentials()
+      } catch (error) {
+        toast.add({title: 'Login failed', color: 'red'})
+      }
     }
   }
 

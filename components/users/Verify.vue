@@ -6,17 +6,13 @@
   >
     <div class="flex flex-col justify-around">
       <div class="text-center mx-auto">
-        <ULink
-            :href="profileImage.fileUrl"
-            class="text-primary-500"
+        <img
+          v-if="profileImage.file.size > 0"
+          :src="profileImage?.fileUrl"
+          :alt="profileImage?.fileName"
+          class="rounded-full w-48 h-48 mb-2"
+          draggable="true"
         >
-          <img
-              :src="profileImage?.fileUrl"
-              :alt="profileImage?.fileName"
-              class="rounded-full w-48 h-48 mb-2"
-              draggable="true"
-          >
-        </ULink>
       </div>
       <div class="flex justify-center gap-2 mb-2">
         <svg
@@ -101,7 +97,6 @@
   const { state, resetUser } = useRegister()
   const { postUser } = useUsersApi()
   const { uploadImage } = useImagesApi()
-  const router = useRouter();
   const toast = useToast()
   const personalInfo = computed(() => state.value.personalInfo)
   const profileImage = computed(() => state.value.profileImage)
@@ -110,18 +105,19 @@
   async function onSubmit () {
     const { id, ...acc } = account.value
     const responseImage = await uploadImage(state.value.profileImage.file)
-    if (responseImage.status !== StatusCode.CREATED) return toast.add({ title: responseImage.message, color: 'red'})
+    console.log("responseImage.statusCode", responseImage.statusCode)
+    if (responseImage.statusCode !== StatusCode.CREATED) return toast.add({ title: responseImage.message, color: 'red'})
 
 
     const payload = {
       ...acc,
       ...personalInfo.value,
       status: StatusType.ACTIVE,
-      imageId: responseImage.data.user.id
+      imageId: responseImage.data.id
     }
 
     const response = await postUser(payload)
-    if (response.status !== StatusCode.CREATED) return toast.add({ title: response.message, color: 'red'})
+    if (response.statusCode !== StatusCode.CREATED) return toast.add({ title: response.message, color: 'red'})
     await navigateTo('/users/signin')
     resetUser()
   }

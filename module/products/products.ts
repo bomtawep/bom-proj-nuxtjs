@@ -1,11 +1,10 @@
 import { object, string, number } from "yup";
-import type { TImage } from "~/types"
-import type { TProduct } from "~/types/products";
+import type { TFile } from "~/types"
 import {useProductsApi} from "~/api/products";
 import {useImagesApi} from "~/api/images";
 
 interface IProduct {
-    productImage: TImage
+    productImage: TFile
     product: TProduct
 }
 

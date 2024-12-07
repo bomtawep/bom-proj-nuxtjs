@@ -2,13 +2,13 @@ import {ref} from "vue";
 import type { TPersonalInfo, TUser} from "~/types/users/users";
 import useUsersApi from "~/api/users";
 import { useUserSteps } from "~/module/users/steps";
-import type { TImage } from "~/types";
+import type { TFile } from "~/types";
 import {ActionType} from "~/const";
 
 interface PersonalI {
     account: TUser
     personalInfo: TPersonalInfo
-    profileImage: TImage
+    profileImage: TFile
     loading: boolean
     isEmail: boolean
     actionType: string
@@ -69,8 +69,9 @@ export const useRegister = () => {
             }
         try {
             return await verifyUsernameEmail(payload)
-        } catch (error) {
-            console.log(error) 
+        } catch (error: any) {
+            console.log("error", typeof error)
+            return error.response.data
         } finally {
             state.value.loading = false
         }
