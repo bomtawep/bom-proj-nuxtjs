@@ -1,7 +1,7 @@
 <template>
   <UForm
       :schema="schema"
-      :state="brandState.brand"
+      :state="BRAND"
       class="m-2"
       @submit="onSubmit"
   >
@@ -11,7 +11,7 @@
           name="name"
           required
       >
-        <UInput v-model="brandState.brand.name"/>
+        <UInput v-model="BRAND.name"/>
       </UFormGroup>
       <UButton
           type="submit"
@@ -23,11 +23,7 @@
 </template>
 <script setup lang="ts">
 
-import {useBrand} from "~/module/brand";
+import {useBrands} from "../../module/brands";
 
-const { schema, state: brandState, onSubmit, resetBrand } = useBrand()
-
-onMounted(() => {
-  resetBrand()
-})
+const { schema, onSubmit, BRAND } = useBrands()
 </script>

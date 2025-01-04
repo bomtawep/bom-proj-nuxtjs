@@ -151,13 +151,13 @@
 </template>
 <script setup lang="ts">
   import {useProductType} from "~/module/product-type";
-  import {useBrand} from "~/module/brand";
+  import {useBrands} from "../../module/brands";
   import {format} from "date-fns";
   import {useProduct} from "~/module/product";
 
   const { schema, state, onSubmit } = useProduct()
   const { fetchProductTypes, state: productTypeState } = useProductType()
-  const { fetchBrands, state: brandState } = useBrand()
+  const { fetchBrands, state: brandState } = useBrands()
 
   const productTypesOptions = productTypeState.value.productTypes.map((productType) => ({
     label: productType.name,

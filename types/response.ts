@@ -1,5 +1,5 @@
 import type { TUsers } from '~/types/users/users';
-import type { TBrand } from './brand';
+import type { TBrand } from './brands';
 export interface TResponse {
     data: any;
     status: number;
