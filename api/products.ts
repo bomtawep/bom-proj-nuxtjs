@@ -1,6 +1,6 @@
 import { useAxios } from "~/api/index";
 import type { TResponse } from "~/types/response";
-import type { TBrand } from "~/types/brand";
+import type { TBrand } from "../types/brands";
 import type { TFile } from "~/types";
 
 export const useProductsApi = () => {

@@ -1,4 +1,4 @@
-export const convertToThaiDate = (date: Date): string => {
+export const convertToThaiDate = (date: string): string => {
     return new Date(date).toLocaleDateString('th-TH', {
         year: 'numeric',
         month: 'long',
