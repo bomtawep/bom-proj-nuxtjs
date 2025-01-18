@@ -1,15 +1,20 @@
-interface IMain {
+interface IState {
     isOpenModal: boolean
 }
 
-const initialMain = (): IMain => ({
+const initialMainState = (): IState => ({
     isOpenModal: false,
 })
 
-const state = ref<IMain>({ ...initialMain() })
+const state = ref<IState>(initialMainState())
 
-export const useMain = () => {
+export const useMainState = () => {
+
+    const resetMainState = () => {
+        Object.assign(state.value, initialMainState())
+    }
     return {
-        state,
+        isOpenModal: toRef(state.value, 'isOpenModal'),
+        resetMainState,
     }
 }

@@ -9,6 +9,10 @@ export type TFile = {
 
 export type TPagination = {
     page: number
-    pageSize: number
+    total: number
     limit: number
+}
+
+export type IQuery = {
+    q: string
 }

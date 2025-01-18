@@ -7,9 +7,9 @@
               type="submit"
               color="primary"
               label="Add product type"
-              @click="state.isOpenModal = true"
+              @click="isOpenModal = true"
           />
-            <ItemsModal :openModal="state.isOpenModal" title="Add product type">
+            <ItemsModal v-model="isOpenModal" title="Add product type">
               <ProductTypeForm />
             </ItemsModal>
         </div>
@@ -22,10 +22,10 @@
 </template>
 <script setup lang="ts">
 import {useProductType} from "~/module/product-type";
-import {useMain} from "~/module";
+import {useMainState} from "~/module";
 
+const { isOpenModal } = useMainState()
 const { resetProductType } = useProductType()
-const { state } = useMain()
 const { fetchProductTypes, state: productTypeState } = useProductType()
 
 const productList = computed(() => ({

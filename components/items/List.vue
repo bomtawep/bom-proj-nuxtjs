@@ -15,15 +15,16 @@
     <UPagination
         :first-button="{ icon: 'i-heroicons-arrow-small-left-20-solid', label: 'First', color: 'primary' }"
         :last-button="{ icon: 'i-heroicons-arrow-small-right-20-solid', trailing: true, label: 'Last', color: 'gray' }"
-        :model-value="0"
-        :total="100"
-        :per-page="10"
+        v-model="page"
+        :total="options.pagination?.total ?? 0"
+        :per-page="options.pagination?.limit ?? 10"
         show-first
         show-last
     />
   </div>
 </template>
 <script setup lang="ts">
+  import type {TPagination} from "~/types";
 
   interface IColumn {
     label: string
@@ -36,17 +37,29 @@
   interface DataItem<T> {
     columns: IColumn[],
     data: T[],
+    pagination?: TPagination,
     loading: boolean,
   }
 
-  const props = defineProps({
-    options: {
-      type: Object as PropType<DataItem<any>>,
-      default: () => []
+  const props = defineProps<{
+    options: DataItem<any>
+    modelValue: number
+  }>()
+
+  const emit = defineEmits<{
+    (event: 'update:modelValue', value: number): void
+  }>()
+
+  const page = computed({
+    get: () => props.modelValue,
+    set: (value) => {
+      console.log("PAGE", value)
+      emit('update:modelValue', value)
     },
   })
 
   const dataWithIndex = computed(() => {
+    if (!(props.options.data.length > 0)) return []
     return props.options.data.map((item, index) => {
       return {
         ...item,
