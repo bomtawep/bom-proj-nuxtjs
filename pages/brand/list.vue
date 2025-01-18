@@ -1,69 +1,83 @@
 <template>
   <div class="container mx-auto max-w-[1000px] p-4 space-y-4">
-    <UCard class="rounded-xl bg-gray-400 shadow-2xl">
-      <UCard class="rounded-xl bg-white">
-        <div class="flex justify-end">
-          <UButton
-              type="submit"
-              color="primary"
-              label="Add brand"
-              @click="handleCreate"
-          />
-          <ItemsModal :openModal="state.isOpenModal" title="Add brand">
-            <BrandForm />
-          </ItemsModal>
-        </div>
-        <div v-if="bradState.brands" class="grid gap-4">
-          <ItemsList :options="options">
-            <template #created_at-data="{ row }: { row: TBrand }">
-              {{ row.created_at ? convertToThaiDate(row.created_at) : '' }}
-            </template>
-            <template #actions-data="{ row }: { row: TBrand }">
-              <div class="flex gap-2">
-                <UButton
-                  icon="i-heroicons-pencil-square"
-                  size="sm"
-                  color="primary"
-                  variant="solid"
-                  label="Button"
-                  @click="editBrand(row.id)"
-                >
-                  Edit
-                </UButton>
-                <UButton
-                  icon="i-heroicons-trash"
-                  size="sm"
-                  color="orange"
-                  variant="solid"
-                  label="Button"
-                  @click="deleteBrand(row.id)"
-                >
-                  Delete
-                </UButton>
-              </div>
-            </template>
-          </ItemsList>
-        </div>
-      </UCard>
+    <UCard class="rounded-xl bg-white">
+      <div class="flex justify-end">
+        <UButton
+            type="submit"
+            color="primary"
+            label="Add brand"
+            @click="handleCreate"
+        />
+        <ItemsModal v-model="isOpenModal" title="Add brand">
+          <BrandForm />
+        </ItemsModal>
+      </div>
+      <div v-if="BRANDS" class="grid gap-4">
+        <ItemsList :options="options" v-model="pagination.page">
+          <template #created_at-data="{ row }: { row: TBrand }">
+            {{ row.created_at ? convertToThaiDate(row.created_at) : '' }}
+          </template>
+          <template #actions-data="{ row }: { row: TBrand }">
+            <div class="flex gap-2">
+              <UButton
+                icon="i-heroicons-pencil-square"
+                size="sm"
+                color="primary"
+                variant="solid"
+                label="Button"
+                @click="editBrand(row.id)"
+              >
+                Edit
+              </UButton>
+              <UButton
+                icon="i-heroicons-trash"
+                size="sm"
+                color="orange"
+                variant="solid"
+                label="Button"
+                @click="handleDelete(row.id)"
+              >
+                Delete
+              </UButton>
+            </div>
+          </template>
+        </ItemsList>
+      </div>
     </UCard>
+    <ItemsModal v-model="isOpenDeleteModal" title="Delete brand?">
+      <div class="flex justify-end gap-4">
+        <UButton
+            color="primary"
+            label="Yes"
+            @click="handleConfirmDelete"
+        />
+        <UButton
+            color="orange"
+            label="No"
+            @click="isOpenDeleteModal = false"
+        />
+      </div>
+    </ItemsModal>
   </div>
 </template>
 <script setup lang="ts">
 
-import { useMain } from "~/module";
 import { useBrands } from "~/module/brands";
 import BrandForm from "~/components/brands/BrandForm.vue";
 import type {TBrand} from "~/types/brands";
 import {convertToThaiDate} from "~/utils/convertToThaiDate";
+import {useMainState} from "~/module";
 import {useBrand} from "~/module/brands/brand";
 
-const { state } = useMain()
-const { fetchBrands, fetchBrand, state: bradState, resetBrand } = useBrands()
-const { BRAND } = useBrand()
+const { isOpenModal } = useMainState()
+const { fetchBrand, deleteBrand, resetBrand, BRAND } = useBrand()
+const { fetchBrands, resetBrands, BRANDS, isLoading, pagination } = useBrands()
+const isOpenDeleteModal = ref(false)
 
 const options = computed(() => ({
-  data: bradState.value.brands,
-  loading: bradState.value.loading,
+  data: BRANDS.value,
+  loading: isLoading.value,
+  pagination: pagination.value,
   columns: [
     {
       label: 'No',
@@ -84,24 +98,36 @@ const options = computed(() => ({
   ],
 }))
 
+watch(() => pagination.value.page, () => {
+  fetchBrands()
+})
+
 const handleCreate = () => {
   resetBrand()
-  state.value.isOpenModal = true
+  isOpenModal.value = true
 }
 
 const editBrand = async (id: string) => {
   if (!id) return
   await fetchBrand(id)
-  state.value.isOpenModal = true
+  isOpenModal.value = true
 }
 
-const deleteBrand = (id: string) => {
+const handleDelete = (id: string) => {
   if (!id) return
-  deleteBrand(id)
+  BRAND.value.id = id
+  isOpenDeleteModal.value = true
+}
+
+const handleConfirmDelete = () => {
+  deleteBrand(BRAND.value.id)
+  isOpenDeleteModal.value = false
+  pagination.value.page = 1
+  fetchBrands()
 }
 
 onMounted(() => {
-  resetBrand()
+  resetBrands()
   fetchBrands()
 })
 </script>

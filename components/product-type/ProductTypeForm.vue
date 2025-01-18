@@ -24,8 +24,6 @@
 <script setup lang="ts">
 
 import { useProductType } from "~/module/product-type";
-import {useMain} from "~/module";
 
-const { state } = useMain()
 const { schema, state: productTypeState, onSubmit } = useProductType()
 </script>

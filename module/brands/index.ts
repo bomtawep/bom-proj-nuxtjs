@@ -1,89 +1,63 @@
-import { object, string } from "yup";
-import type {TBrand, TBrandCreate} from "~/types/brands"
+import type {TBrand} from "~/types/brands"
 import { useBrandApi } from "~/api/brand";
-import { useMain } from "~/module";
+import type {IQuery} from "~/types";
 
-interface IBrand {
-    brand: TBrand
-    brands: TBrand[]
-    loading: boolean
+interface IPagination {
+    page: number
+    total: number
+    limit: number
 }
 
-const initialBrand = (): TBrand => ({
-    id: '',
-    name: '',
-    created_at: '',
-})
+interface IBrand {
+    brands: TBrand[]
+    isLoading: boolean
+    pagination: IPagination
+    query: IQuery
+}
 
 const initialBrands = (): IBrand => ({
-    brand: initialBrand(),
     brands: [],
-    loading: false
+    isLoading: false,
+    pagination: {
+        page: 1,
+        total: 0,
+        limit: 10
+    },
+    query: {
+        q: ''
+    },
 })
 
-const state = ref<IBrand>({ ...initialBrands() })
+const state = ref<IBrand>(initialBrands())
 
 export const useBrands = () => {
 
-    const { getBrands, createBrand, getBrand, updateBrand } = useBrandApi()
-    const { state: mainState } = useMain()
-
-    const schema = object({
-        name: string().required(),
-    })
+    const { getBrands } = useBrandApi()
 
     const fetchBrands = async () => {
-        state.value.loading = true
+        state.value.isLoading = true
         try {
-            const resp = await getBrands()
-            state.value.brands = resp.data
+            const resp = await getBrands(state.value.pagination)
+            state.value.brands = resp.data.brand
+            console.log(resp.data)
+            state.value.pagination.total = resp.data.total
         } catch (error) {
             console.log(error)
         } finally {
-            state.value.loading = false
+            state.value.isLoading = false
         }
     }
 
-    const fetchBrand = async (id: string) => {
-        state.value.loading = true
-        try {
-            const { data } = await getBrand(id)
-            state.value.brand = data
-        } catch (error) {
-            console.log(error)
-        } finally {
-            state.value.loading = false
-        }
-    }
-
-    const deleteBrand = async (id: string) => {
-        await deleteBrand(id)
-        await fetchBrands()
-    }
-
-    const onSubmit = async () => {
-        const payload: TBrandCreate = state.value.brand
-        if (state.value.brand.id) {
-            await createBrand(payload)
-        } else {
-            await updateBrand(payload)
-        }
-        await fetchBrands()
-        mainState.value.isOpenModal = false
-    }
-
-    const resetBrand = () => {
+    const resetBrands = () => {
         Object.assign(state.value, initialBrands())
     }
 
     return {
-        schema,
-        onSubmit,
         fetchBrands,
-        resetBrand,
-        fetchBrand,
-        BRAND: toRef(state.value, 'brand'),
+        resetBrands,
         BRANDS: toRef(state.value, 'brands'),
-        LOADING: toRef(state.value, 'loading'),
+        isLoading: toRef(state.value, 'isLoading'),
+        pagination: toRef(state.value, 'pagination'),
+        query: toRef(state.value, 'query'),
     }
 }

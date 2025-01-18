@@ -1,17 +1,16 @@
 <template>
   <UForm
-      :schema="schema"
-      :state="BRAND"
+      :state="query"
       class="m-2"
       @submit="onSubmit"
   >
     <div class="space-y-2">
       <UFormGroup
           label="Brand name"
-          name="name"
+          name="q"
           required
       >
-        <UInput v-model="BRAND.name"/>
+        <UInput v-model="query.q"/>
       </UFormGroup>
       <UButton
           type="submit"
@@ -22,8 +21,10 @@
   </UForm>
 </template>
 <script setup lang="ts">
+import type {IQuery} from "~/types";
 
-import {useBrand} from "~/module/brands/brand";
-
-const { schema, onSubmit, BRAND } = useBrand()
+defineProps<{
+  title: string
+  query: IQuery
+}>()
 </script>

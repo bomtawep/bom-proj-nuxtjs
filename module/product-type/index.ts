@@ -1,7 +1,7 @@
 import { object, string } from "yup";
 import type { TProductType } from "~/types/product-type";
 import { useProductTypesApi } from "~/api/product-types";
-import {useMain} from "~/module";
+import {useMainState} from "~/module";
 
 interface IProductType {
     productsType: TProductType
@@ -23,7 +23,7 @@ const state = ref<IProductType>({ ...initialProductType() })
 export const useProductType = () => {
 
     const { postProductTypes, getProductTypes } = useProductTypesApi()
-    const { state: mainState } = useMain()
+    const { isOpenModal } = useMainState()
 
     const schema = object({
         name: string().required(),
@@ -35,7 +35,7 @@ export const useProductType = () => {
 
     const fetchProductTypes = async () => {
         state.value.loading = true
-        const { data } = await getProductTypes({ page: 1, pageSize: 10, limit: 5 })
+        const { data } = await getProductTypes({ page: 1, total: 10, limit: 5 })
         state.value.productTypes = data
         state.value.loading = false
     }
@@ -46,7 +46,7 @@ export const useProductType = () => {
         }
         await postProductTypes(payload)
         await fetchProductTypes()
-        mainState.value.isOpenModal = false
+        isOpenModal.value = false
     }
 
     return {

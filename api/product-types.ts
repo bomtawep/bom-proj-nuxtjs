@@ -18,7 +18,7 @@ export const useProductTypesApi = () => {
 
     const getProductTypes = async (pagination?: TPagination): Promise<TResponse> => {
         const res = await axios.request({
-            url: `/product-types?page=${pagination?.page}&pageSize=${pagination?.pageSize}&limit=${pagination?.limit}`,
+            url: `/product-types?page=${pagination?.page}&pageSize=${pagination?.total}&limit=${pagination?.limit}`,
         });
         return res.data;
     }
