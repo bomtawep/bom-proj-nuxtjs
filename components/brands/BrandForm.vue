@@ -16,7 +16,7 @@
       <UButton
           type="submit"
           color="primary"
-          label="Add brand"
+          :label="`${!BRAND.id ? 'Add brand' : 'Edit brand'}`"
       />
     </div>
   </UForm>

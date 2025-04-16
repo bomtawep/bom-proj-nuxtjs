@@ -14,37 +14,103 @@
             </ItemsModal>
         </div>
         <div class="grid gap-4">
-          <ItemsList :options="productList"/>
+          <ItemsList :options="options" v-model="pagination.page">
+            <template #created_at-data="{ row }: { row: TBrand }">
+              {{ row.created_at ? convertToThaiDateTime(row.created_at) : '' }}
+            </template>
+            <template #updated_at-data="{ row }: { row: TBrand }">
+              {{ row.updated_at ? convertToThaiDateTime(row.updated_at) : '' }}
+            </template>
+            <template #actions-data="{ row }: { row: TBrand }">
+              <div class="flex gap-2">
+                <UButton
+                    icon="i-heroicons-pencil-square"
+                    size="sm"
+                    color="primary"
+                    variant="solid"
+                    label="Button"
+                    @click="editBrand(row.id)"
+                >
+                  Edit
+                </UButton>
+                <UButton
+                    icon="i-heroicons-trash"
+                    size="sm"
+                    color="orange"
+                    variant="solid"
+                    label="Button"
+                    @click="handleDelete(row.id)"
+                >
+                  Delete
+                </UButton>
+              </div>
+            </template>
+          </ItemsList>
         </div>
       </UCard>
     </UCard>
   </div>
 </template>
 <script setup lang="ts">
-import {useProductType} from "~/module/product-type";
+import {useProductTypes} from "~/module/product-types";
 import {useMainState} from "~/module";
+import type {TBrand} from "~/types/brands";
+import {convertToThaiDateTime} from "~/utils/convertToThaiDateTime";
 
 const { isOpenModal } = useMainState()
-const { resetProductType } = useProductType()
-const { fetchProductTypes, state: productTypeState } = useProductType()
+const { fetchProductTypes, PRODUCT_TYPES, isLoading, pagination, resetProductTypes } = useProductTypes()
 
-const productList = computed(() => ({
-    data: productTypeState.value.productTypes,
-    loading: productTypeState.value.loading,
-    columns: [
-        {
-          label: 'No.',
-          key: 'id',
-        },
-        {
-          label: 'Name',
-          key: 'name',
-        },
-    ]
+const options = computed(() => ({
+  data: PRODUCT_TYPES.value,
+  loading: isLoading.value,
+  pagination: pagination.value,
+  columns: [
+    {
+      label: 'No',
+      key: 'index'
+    },
+    {
+      label: 'Brand name',
+      key: 'name'
+    },
+    {
+      label: 'Created at',
+      key: 'created_at'
+    },
+    {
+      label: 'Updated at',
+      key: 'updated_at'
+    },
+
+    {
+      label: 'Actions',
+      key: 'actions'
+    }
+  ],
 }))
 
+watch(() => pagination.value.page, () => {
+  fetchProductTypes()
+})
+
+const handleCreate = () => {
+  resetProductTypes()
+  isOpenModal.value = true
+}
+
+const editBrand = async (id: string) => {
+  if (!id) return
+  // await fetchProductTypes(id)
+  isOpenModal.value = true
+}
+
+const handleDelete = async (id: string) => {
+  if (!id) return
+  // await deleteProductTypes(id)
+}
+
 onMounted(() => {
-  resetProductType()
+  resetProductTypes()
   fetchProductTypes()
 })
 </script>

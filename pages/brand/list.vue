@@ -8,14 +8,18 @@
             label="Add brand"
             @click="handleCreate"
         />
-        <ItemsModal v-model="isOpenModal" title="Add brand">
+        <ItemsModal v-model="isOpenModal" :title="`${!BRAND.id ? 'Add' : 'Edit'} brand`">
           <BrandForm />
         </ItemsModal>
       </div>
-      <div v-if="BRANDS" class="grid gap-4">
+      isLoading: {{isLoading}}
+      <ItemsLoading :is-loading="isLoading">
         <ItemsList :options="options" v-model="pagination.page">
           <template #created_at-data="{ row }: { row: TBrand }">
-            {{ row.created_at ? convertToThaiDate(row.created_at) : '' }}
+            {{ row.created_at ? convertToThaiDateTime(row.created_at) : '' }}
+          </template>
+          <template #updated_at-data="{ row }: { row: TBrand }">
+            {{ row.updated_at ? convertToThaiDateTime(row.updated_at) : '' }}
           </template>
           <template #actions-data="{ row }: { row: TBrand }">
             <div class="flex gap-2">
@@ -42,7 +46,7 @@
             </div>
           </template>
         </ItemsList>
-      </div>
+      </ItemsLoading>
     </UCard>
     <ItemsModal v-model="isOpenDeleteModal" title="Delete brand?">
       <div class="flex justify-end gap-4">
@@ -65,7 +69,7 @@
 import { useBrands } from "~/module/brands";
 import BrandForm from "~/components/brands/BrandForm.vue";
 import type {TBrand} from "~/types/brands";
-import {convertToThaiDate} from "~/utils/convertToThaiDate";
+import {convertToThaiDateTime} from "~/utils/convertToThaiDateTime";
 import {useMainState} from "~/module";
 import {useBrand} from "~/module/brands/brand";
 
@@ -91,6 +95,11 @@ const options = computed(() => ({
       label: 'Created at',
       key: 'created_at'
     },
+    {
+      label: 'Updated at',
+      key: 'updated_at'
+    },
+
     {
       label: 'Actions',
       key: 'actions'

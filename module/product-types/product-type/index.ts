@@ -3,14 +3,16 @@ import {useBrandApi} from "~/api/brand";
 import {useMainState} from "~/module";
 import {object, string} from "yup";
 import {useBrands} from "~/module/brands";
+import {useProductTypesApi} from "~/api/product-types";
+import {useProductTypes} from ".";
 
 interface IBrand {
-    brand: TBrand
+    product_type: TBrand
     isLoading: boolean
 }
 
 const initialIBrand = (): IBrand => ({
-    brand: {
+    product_type: {
         id: '',
         name: '',
     },
@@ -19,11 +21,11 @@ const initialIBrand = (): IBrand => ({
 
 const state = ref<IBrand>(initialIBrand())
 
-export const useBrand = () => {
+export const useProductType = () => {
 
     const { isOpenModal } = useMainState()
-    const { getBrand, createBrand, updateBrand, deleteBrandWithId } = useBrandApi()
-    const { fetchBrands } = useBrands()
+    const { getProductType, createProductType, updateProductType, deleteProductTypeWithId } = useProductTypesApi()
+    const { fetchProductTypes } = useProductTypes()
 
     const schema = object({
         name: string().required(),
@@ -32,8 +34,8 @@ export const useBrand = () => {
     const fetchBrand = async (id: string) => {
         state.value.isLoading = true
         try {
-            const { data } = await getBrand(id)
-            state.value.brand = data
+            const { data } = await getProductType(id)
+            state.value.product_type = data
         } catch (error) {
             console.log(error)
         } finally {
@@ -42,18 +44,18 @@ export const useBrand = () => {
     }
 
     const deleteBrand = async (id: string) => {
-        await deleteBrandWithId(id)
-        await fetchBrands()
+        await deleteProductTypeWithId(id)
+        await fetchProductTypes()
     }
 
     const onSubmit = async () => {
-        const payload: TBrandCreate = state.value.brand
+        const payload: TBrandCreate = state.value.product_type
         state.value.isLoading = true
         try {
-            if (!state.value.brand.id) {
-                await createBrand(payload)
+            if (!state.value.product_type.id) {
+                await createProductType(payload)
             } else {
-                await updateBrand(payload)
+                await updateProductType(payload)
             }
         } catch (error) {
             console.log(error)
@@ -62,7 +64,7 @@ export const useBrand = () => {
             state.value.isLoading = false
         }
         isOpenModal.value = false
-        await fetchBrands()
+        await fetchProductTypes()
     }
 
     const resetBrand = () => {
@@ -75,6 +77,6 @@ export const useBrand = () => {
         onSubmit,
         deleteBrand,
         schema,
-        BRAND: toRef(state.value, 'brand'),
+        BRAND: toRef(state.value, 'product_type'),
     }
 }

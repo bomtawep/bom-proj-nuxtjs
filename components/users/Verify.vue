@@ -75,7 +75,7 @@
         </div>
         <div class="flex-col columns-2">
           Birthdate
-          <div class="text-gray-500">{{ convertToThaiDate(personalInfo.birthdate) }}</div>
+          <div class="text-gray-500">{{ convertToThaiDateTime(personalInfo.birthdate) }}</div>
         </div>
         <div v-if="personalInfo.phoneNumber" class="flex-col columns-2">
           Phone
@@ -91,7 +91,7 @@
   import useUsersApi from "~/api/users";
   import { StatusType } from "~/const/users";
   import { StatusCode } from "~/const/statusCode";
-  import { convertToThaiDate } from "~/utils/convertToThaiDate";
+  import { convertToThaiDateTime } from "~/utils/convertToThaiDateTime";
   import {useImagesApi} from "~/api/images";
 
   const { state, resetUser } = useRegister()

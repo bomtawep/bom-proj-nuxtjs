@@ -23,7 +23,7 @@
 </template>
 <script setup lang="ts">
 
-import { useProductType } from "~/module/product-type";
+import { useProductTypes } from "../../module/product-types";
 
-const { schema, state: productTypeState, onSubmit } = useProductType()
+const { schema, state: productTypeState, onSubmit } = useProductTypes()
 </script>

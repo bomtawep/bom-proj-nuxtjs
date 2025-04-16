@@ -30,7 +30,7 @@ export default function useUsersApi() {
 
     const verifyUsernameEmail = async (email: TEmail | TUsername): Promise<TResponse> => {
         const res = await axios.request({
-            url: "users/verify",
+            url: "/users/verify",
             method: "POST",
             data: email
         });

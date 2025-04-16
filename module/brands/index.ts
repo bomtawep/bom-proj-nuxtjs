@@ -1,17 +1,12 @@
 import type {TBrand} from "~/types/brands"
 import { useBrandApi } from "~/api/brand";
 import type {IQuery} from "~/types";
-
-interface IPagination {
-    page: number
-    total: number
-    limit: number
-}
+import { type TPagination } from "~/types";
 
 interface IBrand {
     brands: TBrand[]
     isLoading: boolean
-    pagination: IPagination
+    pagination: TPagination
     query: IQuery
 }
 
@@ -44,7 +39,11 @@ export const useBrands = () => {
         } catch (error) {
             console.log(error)
         } finally {
-            state.value.isLoading = false
+            // Set timeout to show loading spinner
+            setTimeout(() => {
+                state.value.isLoading = false
+            }, 5000)
+            // state.value.isLoading = false
         }
     }
 

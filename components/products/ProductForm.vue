@@ -150,13 +150,13 @@
   </UForm>
 </template>
 <script setup lang="ts">
-  import {useProductType} from "~/module/product-type";
+  import {useProductTypes} from "../../module/product-types";
   import {useBrands} from "../../module/brands";
   import {format} from "date-fns";
   import {useProduct} from "~/module/product";
 
   const { schema, state, onSubmit } = useProduct()
-  const { fetchProductTypes, state: productTypeState } = useProductType()
+  const { fetchProductTypes, state: productTypeState } = useProductTypes()
   const { fetchBrands, state: brandState } = useBrands()
 
   const productTypesOptions = productTypeState.value.productTypes.map((productType) => ({
