@@ -5,6 +5,7 @@
       <h1>{{ title.TITLE }}</h1>
       <AppNavigation />
       <ItemsTheme />
+      <ItemsAccount />
     </div>
   </header>
 </template>

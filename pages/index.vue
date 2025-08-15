@@ -2,9 +2,7 @@
   <div class="flex justify-center w-full">
     <div class="flex md:flex-col justify-center w-full h-full">
       <h1>Welcome</h1>
-      <img class="w-64" :src="path" alt="Profile image" />
       <AppAlert>
-        {{ name }}
         <UButton @click="signOutUser()">Sign out</UButton>
       </AppAlert>
     </div>
@@ -14,10 +12,12 @@
 <script setup lang="ts">
   import useUsersApi from "~/api/users";
   import { useImagesApi } from "~/api/images";
+  import {useProfile} from "~/module/users/profile";
 
   const { signOut } = useAuth()
   const { getImages } = useImagesApi()
   const { getSession } = useUsersApi()
+  const { setProfileImage, setFullName } = useProfile()
 
   async function signOutUser() {
     await signOut({
@@ -26,18 +26,15 @@
     })
   }
 
-  const path = ref('')
-  const name = ref('')
-
-  const images = async () => {
+  const getProfile = async () => {
     const session = await getSession()
     const image = await getImages(session.data.imageId)
-    path.value = `http://localhost:3000/${image.data.path}`
-    name.value = `${session.data.firstname} ${session.data.lastname}`
+    setProfileImage(image.data.path)
+    setFullName(`${session.data.firstname} ${session.data.lastname}`)
   }
 
   onMounted(() => {
-    images()
+    getProfile()
   })
 </script>
 <style>
